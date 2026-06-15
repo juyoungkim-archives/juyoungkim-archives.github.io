@@ -1140,12 +1140,18 @@
     if (v) {
       const [y, m, d] = v.split('-');
       footerStamp.textContent = `UPDATED · ${y}.${m}.${d}`;
+      localStorage.setItem('profileUpdateDate', v);
     }
+  }
+
+  const savedDate = localStorage.getItem('profileUpdateDate');
+  if (savedDate) {
+    dateInput.value = savedDate;
   }
 
   dateInput.addEventListener('change', updateFooter);
   updateFooter();
-
+  
   function downloadPDF() {
     const toolbar = document.getElementById('toolbar');
     toolbar.style.display = 'none';
