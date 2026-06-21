@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated": "2026.06.19",
+    "updated": "2026.06.22",
     "name_kr": "김 주 영",
     "name_en": "Juyoung Kim",
     "title_kr": "(주)자리 연구소장",
@@ -777,10 +777,10 @@
         ],
         "rows": [
           [
-            "ISO/TC 46/SC 11(Archives/records management) Committee",
-            "Korean Agency for Technology and Standards(KATS)",
-            "Member",
-            "2020.07 – Present"
+            "Records Appraisal Review Committee",
+            "Jungnang-gu Facilities Management Corporation",
+            "Review Member",
+            "2020.09 – 2022.09"
           ],
           [
             "ISO/IEC JTC 1/SC 23(Digitally recorded media for information interchange and storage) Committee",
@@ -963,30 +963,6 @@
             "2021.08 – 2023.08"
           ],
           [
-            "Records Appraisal Review Committee",
-            "Seoul Facilities Corporation",
-            "Review Member",
-            "2020.11 – 2024.11"
-          ],
-          [
-            "Records Appraisal Review Committee",
-            "Jungnang District Facility Management Corp.",
-            "Review Member",
-            "2020.09 – 2022.09"
-          ],
-          [
-            "Records Management Strategy Committee",
-            "Gyeonggi Tourism Organization",
-            "Advisory Member",
-            "2019.11 – 2022.09"
-          ],
-          [
-            "Records Appraisal Review Committee",
-            "Kunsan University",
-            "Review Member",
-            "2018.12 – 2024.03"
-          ],
-          [
             "Cloud RMS Implementation Technical Advisory Committee",
             "ROK Army Headquarters",
             "Technical Advisor",
@@ -997,6 +973,24 @@
             "Gunpo City Hall",
             "Evaluator",
             "2021.03"
+          ],
+          [
+            "ISO/TC 46/SC 11(Archives/records management) Committee",
+            "Korean Agency for Technology and Standards(KATS)",
+            "Member",
+            "2020.07 – Present"
+          ],
+          [
+            "Records Appraisal Review Committee",
+            "Seoul Facilities Corporation",
+            "Review Member",
+            "2020.11 – 2024.11"
+          ],
+          [
+            "Records Appraisal Review Committee",
+            "Jungnang District Facility Management Corp.",
+            "Review Member",
+            "2020.09 – 2022.09"
           ],
           [
             "Proposal Technical Evaluation Committee",
@@ -1011,16 +1005,22 @@
             "2020.11 – 2024.11"
           ],
           [
-            "Records Appraisal Review Committee",
-            "Jungnang-gu Facilities Management Corporation",
-            "Review Member",
-            "2020.09 – 2022.09"
+            "Records Management Strategy Committee",
+            "Gyeonggi Tourism Organization",
+            "Advisory Member",
+            "2019.11 – 2022.09"
           ],
           [
             "Records Management Strategy and System Establishment Committee",
             "Gyeonggi Tourism Organization",
             "Advisory Member",
             "2019.11 – 2022.09"
+          ],
+          [
+            "Records Appraisal Review Committee",
+            "Kunsan University",
+            "Review Member",
+            "2018.12 – 2024.03"
           ],
           [
             "Records Appraisal Review Committee",
