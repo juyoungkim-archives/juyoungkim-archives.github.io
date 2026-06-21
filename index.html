@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=IBM+Plex+Mono:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
+
   :root {
     --ink: #1a1a2e;
     --navy: #16213e;
@@ -455,6 +456,142 @@
     .toolbar { padding: 10px 16px; flex-wrap: wrap; gap: 8px; }
     .container { padding: 24px 16px 60px; }
   }
+
+
+
+  /* ═══ ADMIN SYSTEM ═══ */
+  .tb-admin-btn {
+    font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+    padding:5px 13px;background:transparent;
+    border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.38);
+    cursor:pointer;border-radius:2px;transition:all .2s;
+  }
+  .tb-admin-btn:hover{border-color:var(--gold);color:var(--gold);}
+  .adm-overlay{display:none;position:fixed;inset:0;background:rgba(10,14,30,.72);z-index:400;align-items:center;justify-content:center;padding:20px;}
+  .adm-overlay.on{display:flex;}
+  .adm-login-box{background:var(--cream);border:1px solid var(--rule);border-top:3px solid var(--stamp);padding:36px 40px;width:340px;box-shadow:0 24px 64px rgba(0,0,0,.35);}
+  .adm-pw-box{background:var(--cream);border:1px solid var(--rule);border-top:3px solid var(--gold);padding:36px 40px;width:340px;box-shadow:0 24px 64px rgba(0,0,0,.35);}
+  .adm-box-title{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--stamp);margin-bottom:22px;}
+  .adm-field{margin-bottom:14px;}
+  .adm-label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted);margin-bottom:5px;text-transform:uppercase;}
+  .adm-input{width:100%;padding:10px 12px;border:1px solid var(--rule);background:#fff;font-family:var(--mono);font-size:13px;color:var(--ink);outline:none;border-radius:2px;}
+  .adm-input:focus{border-color:var(--navy);}
+  .adm-err{font-family:var(--mono);font-size:11px;color:var(--stamp);margin-top:8px;display:none;}
+  .adm-row{display:flex;gap:8px;margin-top:22px;}
+  .adm-btn{flex:1;padding:10px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;cursor:pointer;border-radius:2px;border:none;transition:background .2s;}
+  .adm-btn.primary{background:var(--navy);color:#fff;}
+  .adm-btn.primary:hover{background:var(--stamp);}
+  .adm-btn.secondary{background:transparent;border:1px solid var(--rule);color:var(--muted);}
+  .adm-btn.secondary:hover{border-color:var(--navy);color:var(--navy);}
+  .adm-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--navy);border-top:2px solid var(--gold);padding:0 24px;height:52px;align-items:center;justify-content:space-between;z-index:300;font-family:var(--mono);font-size:11px;}
+  .adm-bar.on{display:flex;}
+  .adm-bar-left{color:var(--gold);letter-spacing:.12em;display:flex;align-items:center;gap:10px;}
+  .adm-bar-center{display:flex;gap:8px;}
+  .adm-bar-right{display:flex;gap:8px;align-items:center;}
+  .adm-bar-btn{font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:7px 16px;cursor:pointer;border-radius:2px;border:none;transition:all .2s;}
+  .adm-bar-btn.update{background:var(--gold);color:var(--navy);font-weight:700;}
+  .adm-bar-btn.update:hover{background:#dbb84a;}
+  .adm-bar-btn.outline{background:transparent;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.65);}
+  .adm-bar-btn.outline:hover{border-color:var(--gold);color:var(--gold);}
+  .adm-bar-btn.danger{background:transparent;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.4);}
+  .adm-bar-btn.danger:hover{border-color:var(--stamp);color:var(--stamp);}
+  body.adm-active{padding-bottom:52px;}
+  .adm-panel{display:none;position:fixed;inset:0;background:var(--cream);z-index:500;flex-direction:column;overflow:hidden;}
+  .adm-panel.on{display:flex;}
+  .adm-panel-head{background:var(--navy);border-bottom:2px solid var(--gold);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+  .adm-panel-head-left{display:flex;align-items:center;gap:16px;}
+  .adm-panel-head-title{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--gold);}
+  .adm-panel-close{background:transparent;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.6);font-family:var(--mono);font-size:11px;padding:5px 14px;cursor:pointer;border-radius:2px;transition:all .2s;}
+  .adm-panel-close:hover{border-color:var(--stamp);color:var(--stamp);}
+  .adm-panel-body{display:flex;flex:1;overflow:hidden;}
+  .adm-save-json-btn{font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:6px 16px;background:var(--stamp);color:#fff;border:none;cursor:pointer;border-radius:2px;transition:background .2s;}
+  .adm-save-json-btn:hover{background:var(--stamp-light);}
+  .adm-section-list{width:210px;flex-shrink:0;border-right:1px solid var(--rule);overflow-y:auto;padding:12px 0;background:#f0ebe0;}
+  .adm-sec-item{padding:11px 18px;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.04em;border-left:3px solid transparent;transition:all .15s;display:flex;flex-direction:column;gap:2px;}
+  .adm-sec-item .sec-stamp{font-size:9px;color:var(--stamp);letter-spacing:.12em;}
+  .adm-sec-item .sec-name{color:var(--ink);font-size:12px;}
+  .adm-sec-item:hover{background:var(--parchment);}
+  .adm-sec-item.active{border-left-color:var(--gold);background:var(--cream);}
+  .adm-sec-item.active .sec-name{font-weight:700;color:var(--navy);}
+  .adm-editor{flex:1;overflow-y:auto;padding:24px 28px;}
+  .adm-editor-placeholder{height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.08em;flex-direction:column;gap:10px;}
+  .adm-editor-title{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--stamp);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:12px;}
+  .adm-add-btn{margin-left:auto;padding:6px 14px;background:var(--navy);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.08em;border:none;cursor:pointer;border-radius:2px;transition:background .2s;}
+  .adm-add-btn:hover{background:var(--stamp);}
+  .adm-sort-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;padding:7px 12px;background:var(--parchment);border:1px solid var(--rule);border-radius:2px;font-family:var(--mono);font-size:10px;color:var(--muted);}
+  .adm-sort-sel{font-family:var(--mono);font-size:11px;padding:3px 8px;border:1px solid var(--rule);background:#fff;color:var(--ink);border-radius:2px;}
+  .adm-sort-btn{font-family:var(--mono);font-size:10px;padding:4px 12px;cursor:pointer;border-radius:2px;border:1px solid var(--navy);color:var(--navy);background:transparent;transition:all .15s;}
+  .adm-sort-btn:hover{background:var(--navy);color:#fff;}
+  .adm-sort-hint{margin-left:auto;opacity:.55;font-size:10px;}
+  .adm-table{width:100%;border-collapse:collapse;font-size:12px;}
+  .adm-table thead tr{background:var(--navy);color:#fff;}
+  .adm-table thead th{font-family:var(--mono);font-size:10px;letter-spacing:.1em;font-weight:400;padding:8px 10px;text-align:left;white-space:nowrap;}
+  .adm-table tbody tr{border-bottom:1px solid var(--rule);cursor:grab;}
+  .adm-table tbody tr:hover{background:var(--parchment);}
+  .adm-table tbody tr.drag-over{background:#e8f0fe;outline:2px solid var(--gold);}
+  .adm-table tbody tr.dragging{opacity:.35;cursor:grabbing;}
+  .adm-table tbody td{padding:8px 10px;vertical-align:top;font-family:var(--sans-kr);font-size:12px;}
+  .adm-table tbody td.adm-actions{white-space:nowrap;cursor:default;}
+  .adm-table tbody td.adm-handle{width:22px;text-align:center;color:#ccc;font-size:13px;cursor:grab;user-select:none;padding:8px 2px 8px 8px;}
+  .adm-table tbody tr:hover td.adm-handle{color:var(--muted);}
+  .adm-row-btn{font-family:var(--mono);font-size:10px;padding:3px 8px;cursor:pointer;border-radius:2px;border:1px solid;margin-right:3px;transition:all .15s;background:transparent;}
+  .adm-row-btn.edit{border-color:var(--navy);color:var(--navy);}
+  .adm-row-btn.edit:hover{background:var(--navy);color:#fff;}
+  .adm-row-btn.del{border-color:var(--stamp);color:var(--stamp);}
+  .adm-row-btn.del:hover{background:var(--stamp);color:#fff;}
+  .adm-row-btn.mv{border-color:var(--rule);color:var(--muted);padding:3px 6px;}
+  .adm-row-btn.mv:hover{background:var(--parchment);border-color:var(--muted);}
+  .adm-order-bar{margin-top:12px;padding:10px 14px;background:#fffbe6;border:1px solid var(--gold);border-radius:2px;display:none;align-items:center;gap:12px;font-family:var(--mono);font-size:11px;color:#7a6010;}
+  .adm-order-bar.on{display:flex;}
+  .adm-save-order-btn{margin-left:auto;padding:6px 18px;background:var(--gold);color:var(--navy);font-weight:700;font-family:var(--mono);font-size:11px;border:none;border-radius:2px;cursor:pointer;}
+  .adm-save-order-btn:hover{background:#dbb84a;}
+  .adm-dialog-overlay{display:none;position:absolute;inset:0;background:rgba(10,14,30,.6);z-index:10;align-items:center;justify-content:center;padding:24px;}
+  .adm-dialog-overlay.on{display:flex;}
+  .adm-dialog{background:var(--cream);border:1px solid var(--rule);border-top:3px solid var(--gold);padding:28px 32px;width:100%;max-width:720px;max-height:82vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.35);}
+  .adm-dialog-title{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--gold);margin-bottom:20px;text-transform:uppercase;}
+  .adm-dialog-fields{display:flex;flex-direction:column;gap:14px;}
+  .adm-dialog-row{display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;}
+  .adm-dfield{display:flex;flex-direction:column;gap:5px;}
+  .adm-dlabel{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+  .lang-badge{font-size:9px;padding:1px 5px;border-radius:1px;border:1px solid;line-height:1.4;}
+  .lang-badge.kr{border-color:var(--stamp);color:var(--stamp);}
+  .lang-badge.en{border-color:var(--navy);color:var(--navy);}
+  .adm-translate-btn{font-family:var(--mono);font-size:10px;padding:2px 8px;background:transparent;border:1px solid var(--gold);color:#a07a20;cursor:pointer;border-radius:2px;transition:all .15s;}
+  .adm-translate-btn:hover{background:var(--gold);color:var(--navy);}
+  .adm-dinput{padding:8px 10px;border:1px solid var(--rule);background:#fff;font-family:var(--sans-kr);font-size:13px;color:var(--ink);outline:none;border-radius:2px;transition:border-color .15s;}
+  .adm-dinput:focus{border-color:var(--gold);}
+  .adm-dinput.translating{background:#fffbe6;border-color:var(--gold);}
+  .adm-translate-spinner{display:inline-block;width:10px;height:10px;border:2px solid var(--gold);border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite;margin-left:4px;vertical-align:middle;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .adm-dialog-actions{display:flex;gap:8px;margin-top:20px;}
+  .adm-dialog-btn{flex:1;padding:10px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;cursor:pointer;border-radius:2px;border:none;transition:background .2s;}
+  .adm-dialog-btn.save{background:var(--navy);color:#fff;}
+  .adm-dialog-btn.save:hover{background:var(--stamp);}
+  .adm-dialog-btn.cancel{background:transparent;border:1px solid var(--rule);color:var(--muted);}
+  .adm-dialog-btn.cancel:hover{border-color:var(--navy);color:var(--navy);}
+  .adm-log-panel{display:none;position:fixed;inset:0;background:var(--cream);z-index:600;flex-direction:column;overflow:hidden;}
+  .adm-log-panel.on{display:flex;}
+  .adm-log-head{background:var(--navy);border-bottom:2px solid var(--gold);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+  .adm-log-head-title{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--gold);}
+  .adm-log-body{flex:1;overflow-y:auto;padding:24px 32px;}
+  .adm-log-filter{display:flex;gap:8px;margin-bottom:16px;}
+  .adm-log-filter-btn{font-family:var(--mono);font-size:10px;padding:5px 12px;cursor:pointer;border-radius:2px;border:1px solid var(--rule);background:transparent;color:var(--muted);}
+  .adm-log-filter-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .adm-log-clear{margin-left:auto;font-family:var(--mono);font-size:10px;padding:5px 12px;cursor:pointer;border-radius:2px;border:1px solid var(--stamp);color:var(--stamp);background:transparent;}
+  .adm-log-clear:hover{background:var(--stamp);color:#fff;}
+  .adm-log-entry{border-bottom:1px solid var(--rule);padding:12px 0;display:grid;grid-template-columns:160px 60px 1fr;gap:10px;align-items:start;}
+  .adm-log-time{font-family:var(--mono);font-size:11px;color:var(--muted);}
+  .adm-log-action{font-family:var(--mono);font-size:10px;padding:2px 6px;border-radius:1px;text-align:center;white-space:nowrap;}
+  .adm-log-action.add{background:#e6f4ea;color:#2d6a4f;border:1px solid #b7dfc9;}
+  .adm-log-action.edit{background:#e8f0fe;color:#1a56c4;border:1px solid #b3c8f9;}
+  .adm-log-action.del{background:#fde8e8;color:#8b1a1a;border:1px solid #f5b8b8;}
+  .adm-log-action.order{background:#fff3e0;color:#7a4a00;border:1px solid #ffd59e;}
+  .adm-log-desc{font-family:var(--sans-kr);font-size:12px;color:var(--ink);line-height:1.5;}
+  .adm-log-empty{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center;padding-top:60px;}
+  .adm-toast{position:fixed;top:68px;right:24px;background:var(--navy);color:var(--gold);font-family:var(--mono);font-size:11px;letter-spacing:.1em;padding:10px 20px;border-radius:2px;z-index:800;opacity:0;pointer-events:none;transition:opacity .25s;border:1px solid rgba(201,168,76,.4);}
+  .adm-toast.on{opacity:1;}
+  @media print{.adm-bar,.tb-admin-btn{display:none !important;}body{padding-bottom:0 !important;}}
+
 </style>
 </head>
 <body>
@@ -470,6 +607,8 @@
     </div>
     <button class="lang-btn active" id="btnKr" onclick="setLang('kr')">한국어</button>
     <button class="lang-btn" id="btnEn" onclick="setLang('en')">English</button>
+    <button class="tb-admin-btn" id="admLoginBtn" onclick="admShowLogin()">관리자</button>
+    <button class="tb-admin-btn" id="admLoginBtn" onclick="admShowLogin()">관리자</button>
     <button class="download-btn" onclick="downloadPDF()">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       <span data-lang="kr">PDF 저장</span>
@@ -479,694 +618,608 @@
 </div>
 
 <div class="container" id="mainContent">
-
-  <!-- ── HERO ── -->
-  <div class="hero">
-    <img class="hero-photo" src="photo.png" alt="김주영">
-    <div class="hero-info">
-  <div class="hero-name" data-lang="kr">김 주 영
-        <span class="name-title">(주)자리 연구소장<span class="name-title-org"></span></span>
-        <span class="name-sub">기록관리전문가, 지식자산관리전문가</span>
+  <div class="hero" id="heroBlock"></div>
+  <div id="sectionsBlock"></div>
+  <div class="page-footer">
+    <span class="updated-stamp" id="footerStamp">UPDATED · –</span>
   </div>
-  <div class="hero-name" data-lang="en" style="font-family:var(--serif-en);font-size:38px;font-weight:600;color:var(--navy);line-height:1.2;margin-bottom:4px;">Juyoung Kim
-        <span class="name-title">J·ARI Co., Ltd. Chief Research Officer<span class="name-title-org" style="letter-spacing:-0.03em;"></span></span>
-        <span class="name-sub" style="font-family:var(--sans-kr);">Archivist, Knowledge Asset Management Specialist</span>
+</div>
+
+<!-- LOGIN -->
+<div class="adm-overlay" id="admLogin">
+  <div class="adm-login-box">
+    <div class="adm-box-title">ADMIN · 관리자 로그인</div>
+    <div class="adm-field"><label class="adm-label">Password</label>
+      <input type="password" class="adm-input" id="admPw" placeholder="비밀번호 입력"></div>
+    <div class="adm-err" id="admErr">⚠ 비밀번호가 올바르지 않습니다.</div>
+    <div class="adm-row">
+      <button class="adm-btn primary" onclick="admDoLogin()">로그인</button>
+      <button class="adm-btn secondary" onclick="admHideLogin()">취소</button>
+    </div>
   </div>
-      <div style="height: 12px;"></div>
-      <div class="hero-meta">
-        <span class="meta-key" data-lang="kr">연락처</span>
-        <span class="meta-key" data-lang="en">Mobile</span>
-        <span class="meta-val">010-6222-7814</span>
+</div>
 
-        <span class="meta-key">E-mail</span>
-        <span class="meta-val"><a href="mailto:juyoung.kim7@gmail.com">juyoung.kim7@gmail.com</a></span>
+<!-- ADMIN BAR -->
+<div class="adm-bar" id="admBar">
+  <div class="adm-bar-left">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--gold)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    ADMIN MODE ACTIVE
+  </div>
+  <div class="adm-bar-center">
+    <button class="adm-bar-btn update" onclick="admOpenPanel()">✎ 콘텐츠 편집</button>
+    <button class="adm-bar-btn outline" onclick="admOpenLog()">☰ 변경 로그</button>
+  </div>
+  <div class="adm-bar-right">
+    <button class="adm-bar-btn outline" onclick="admOpenPwChange()">🔑 비밀번호 변경</button>
+    <button class="adm-bar-btn danger" onclick="admLogout()">로그아웃</button>
+  </div>
+</div>
 
-        <span class="meta-key">Website</span>
-        <span class="meta-val"><a href="https://juyoungkim-archives.github.io/" target="_blank">juyoungkim-archives.github.io</a></span>
+<!-- ADMIN PANEL -->
+<div class="adm-panel" id="admPanel">
+  <div class="adm-panel-head">
+    <div class="adm-panel-head-left">
+      <span class="adm-panel-head-title">✎ 콘텐츠 편집</span>
+      <button class="adm-save-json-btn" onclick="admSaveJson()">⬇ data.json 저장</button>
+    </div>
+    <button class="adm-panel-close" onclick="admClosePanel()">✕ 닫기</button>
+  </div>
+  <div class="adm-panel-body">
+    <div class="adm-section-list" id="admSecList"></div>
+    <div class="adm-editor" id="admEditor">
+      <div class="adm-editor-placeholder">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.3"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        <span>왼쪽에서 섹션을 선택하세요</span>
       </div>
     </div>
-    <div class="hero-logo">
-      <img src="logo.png" alt="Company Logo">
+  </div>
+  <div class="adm-dialog-overlay" id="admDialog">
+    <div class="adm-dialog">
+      <div class="adm-dialog-title" id="admDialogTitle">항목 편집</div>
+      <div id="admDialogForm"></div>
+      <div class="adm-dialog-actions">
+        <button class="adm-dialog-btn save" onclick="admSaveRow()">저장</button>
+        <button class="adm-dialog-btn cancel" onclick="admCloseDialog()">취소</button>
+      </div>
     </div>
   </div>
-
-  <!-- ── 1. 학력사항 ── -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-stamp">EDU</span>
-      <span class="section-title" data-lang="kr">학력사항</span>
-      <span class="section-title" data-lang="en">Education</span>
-    </div>
-
-    <table class="prof-table" data-lang="kr">
-      <thead><tr><th>학교명</th><th>학과명</th><th>학위</th><th>기간</th></tr></thead>
-      <tbody>
-        <tr><td>충남대학교 일반대학원</td><td>기록학과</td><td>기록관리학 박사과정 수료</td><td class="mono">2018.09 – 2020.08</td></tr>
-        <tr><td>충남대학교 일반대학원</td><td>기록학과</td><td>기록관리학 석사</td><td class="mono">2009.09 – 2017.02</td></tr>
-      </tbody>
-    </table>
-
-    <table class="prof-table" data-lang="en">
-      <thead><tr><th>Institution</th><th>Department</th><th>Degree</th><th>Period</th></tr></thead>
-      <tbody>
-        <tr><td>Graduate School, Chungnam National University</td><td>Dept. of Archival Science</td><td>PhD Program Completion (Archival Science)</td><td class="mono">2018.09 – 2020.08</td></tr>
-        <tr><td>Graduate School, Chungnam National University</td><td>Dept. of Archival Science</td><td>Master of Archival Science</td><td class="mono">2009.09 – 2017.02</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-<!-- ── 학술·사회활동 ── -->
-<div class="section">
-  <div class="section-header">
-    <span class="section-stamp">AFFIL.</span>
-    <span class="section-title" data-lang="kr">학술·사회활동</span>
-    <span class="section-title" data-lang="en">Academic &amp; Professional Affiliations</span>
-  </div>
-
-  <table class="prof-table" data-lang="kr">
-    <thead><tr><th>단체명</th><th>역할</th><th>기간</th></tr></thead>
-    <tbody>
-      <tr><td>사단법인 한국기록학회</td><td>디지털전환분과위원</td><td class="mono">2024.04.05 – 현재</td></tr>
-      <tr><td>사단법인 한국기록관리학회</td><td>정회원</td><td class="mono">2018.10.28 – 현재</td></tr>
-      <tr><td>사단법인 대한기록정보경영포럼</td><td>이사 (기록정보경영 분과위원장)</td><td class="mono">2017.07.01 – 현재</td></tr>
-      <tr><td>사단법인 빅데이터·정보보호융합기술협회</td><td>이사</td><td class="mono">2016.07.01 – 현재</td></tr>
-    </tbody>
-  </table>
-
-  <table class="prof-table" data-lang="en">
-    <thead><tr><th>Organization</th><th>Role</th><th>Period</th></tr></thead>
-    <tbody>
-      <tr><td>Korean Society of Archival Studies (KSAS)</td><td>Committee Member, Digital Transformation Division</td><td class="mono">2024.04.05 – Present</td></tr>
-      <tr><td>Korean Society of Archives and Records Management (KSARM)</td><td>Regular Member</td><td class="mono">2018.10.28 – Present</td></tr>
-      <tr><td>Korea Records Information Management Forum (KRIM)</td><td>Director (Chair, Records &amp; Information Management Division)</td><td class="mono">2017.07.01 – Present</td></tr>
-      <tr><td>Korea Association for Big Data &amp; Information Security Convergence Technology</td><td>Director</td><td class="mono">2016.07.01 – Present</td></tr>
-    </tbody>
-  </table>
 </div>
 
-  <!-- ── 2. 자격사항 ── -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-stamp">CERT.</span>
-      <span class="section-title" data-lang="kr">자격사항</span>
-      <span class="section-title" data-lang="en">Certifications &amp; Licenses</span>
-    </div>
-
-    <table class="prof-table" data-lang="kr">
-      <thead><tr><th>자격증명</th><th>발급기관</th><th>취득연월</th></tr></thead>
-      <tbody>
-        <tr><td>기록물관리 전문요원</td><td>행정안전부</td><td class="stamp-cell">2017.03</td></tr>
-        <tr><td>ISO 30301 기록경영시스템 선임심사원</td><td>Bureau Veritas</td><td class="stamp-cell">2015.09</td></tr>
-        <tr><td>정보통신기술자 (고급)</td><td>한국정보통신공사협회</td><td class="stamp-cell">2015.02</td></tr>
-        <tr><td>소프트웨어기술자 (특급)</td><td>한국소프트웨어산업협회</td><td class="stamp-cell">2009.01</td></tr>
-        <tr><td>정보처리기사</td><td>한국산업인력공단</td><td class="stamp-cell">2005.06</td></tr>
-        <tr><td>MCP (Microsoft Certified Professional)</td><td>Microsoft</td><td class="stamp-cell">2000.03</td></tr>
-        <tr><td>워드프로세서 2급</td><td>대한상공회의소</td><td class="stamp-cell">1997.08</td></tr>
-        <tr><td>워드프로세서 3급</td><td>대한상공회의소</td><td class="stamp-cell">1997.08</td></tr>
-        <tr><td>화학분석기능사</td><td>한국산업인력공단</td><td class="stamp-cell">1991.08</td></tr>
-      </tbody>
-    </table>
-
-    <table class="prof-table" data-lang="en">
-      <thead><tr><th>Certification</th><th>Issuing Body</th><th>Obtained</th></tr></thead>
-      <tbody>
-        <tr><td>Records Management Professional</td><td>Ministry of the Interior and Safety</td><td class="stamp-cell">2017.03</td></tr>
-        <tr><td>ISO 30301 Records Management System Lead Auditor</td><td>Bureau Veritas</td><td class="stamp-cell">2015.09</td></tr>
-        <tr><td>Advanced Information and Communication Engineer</td><td>Korea Information &amp; Communication Contractors Association</td><td class="stamp-cell">2015.02</td></tr>
-        <tr><td>Grand Master Software Engineer</td><td>Korea Software Industry Association</td><td class="stamp-cell">2009.01</td></tr>
-        <tr><td>Engineer Information Processing</td><td>Human Resources Development Service of Korea</td><td class="stamp-cell">2005.06</td></tr>
-        <tr><td>MCP (Microsoft Certified Professional)</td><td>Microsoft</td><td class="stamp-cell">2000.03</td></tr>
-        <tr><td>Word Processor Specialist Level-Ⅱ</td><td>Korea Chamber of Commerce &amp; Industry</td><td class="stamp-cell">1997.08</td></tr>
-        <tr><td>Word Processor Specialist Level-Ⅲ</td><td>Korea Chamber of Commerce &amp; Industry</td><td class="stamp-cell">1997.08</td></tr>
-        <tr><td>Craftsman Chemical Analysis</td><td>Human Resources Development Service of Korea</td><td class="stamp-cell">1991.08</td></tr>
-      </tbody>
-    </table>
+<!-- LOG PANEL -->
+<div class="adm-log-panel" id="admLogPanel">
+  <div class="adm-log-head">
+    <span class="adm-log-head-title">☰ 변경 로그</span>
+    <button class="adm-panel-close" onclick="admCloseLog()">✕ 닫기</button>
   </div>
-
-  <!-- ── 3. 강의경력 ── -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-stamp">LECT.</span>
-      <span class="section-title" data-lang="kr">강의경력</span>
-      <span class="section-title" data-lang="en">Teaching Experience</span>
+  <div class="adm-log-body">
+    <div class="adm-log-filter">
+      <button class="adm-log-filter-btn active" onclick="admFilterLog('all',this)">전체</button>
+      <button class="adm-log-filter-btn" onclick="admFilterLog('add',this)">추가</button>
+      <button class="adm-log-filter-btn" onclick="admFilterLog('edit',this)">수정</button>
+      <button class="adm-log-filter-btn" onclick="admFilterLog('del',this)">삭제</button>
+      <button class="adm-log-filter-btn" onclick="admFilterLog('order',this)">순서</button>
+      <button class="adm-log-clear" onclick="admClearLog()">로그 초기화</button>
     </div>
-
-<table class="prof-table" data-lang="kr">
-  <thead><tr><th>학교/기관명</th><th>학과/과정명</th><th>직급/구분</th><th>기간</th></tr></thead>
-  <tbody>
-    <tr><td>충남대학교 일반대학원</td><td>기록학과</td><td>특강</td><td class="mono">2026.06.04</td></tr>
-    <tr><td>경제·인문사회연구회</td><td>2025년도 제2차 기록관리협의회 세미나</td><td>특강</td><td class="mono">2025.11.26</td></tr>
-    <tr><td>중소벤처기업인증원</td><td>ISO 30301(기록경영시스템) 인증 심사원 양성과정</td><td>강사</td><td class="mono">2025.11.08 – 2025.11.09</td></tr>
-    <tr><td>충남대학교 일반대학원</td><td>기록학과</td><td>강사</td><td class="mono">2022.09 – 2025.08</td></tr>
-    <tr><td>한남대학교</td><td>사학과</td><td>특강</td><td class="mono">2025.03.26</td></tr>
-    <tr><td>국가기록원</td><td>2024년 제2차 기록관리 연구세미나</td><td>특강</td><td class="mono">2024.12.20</td></tr>
-    <tr><td>가천대학교 평생교육원</td><td>문헌정보학 학위과정</td><td>시간강사</td><td class="mono">2023.12 – 2024.02 / 2022.04 – 2022.07</td></tr>
-    <tr><td>육군종합행정학교</td><td>국방기록관리학 교육과정</td><td>겸임교수</td><td class="mono">2021.08 – 2023.06</td></tr>
-    <tr><td>한국외국어대학교 일반대학원</td><td>정보·기록관리학과</td><td>강사 (Team Teaching)</td><td class="mono">2017.03 – 2017.07 / 2020.03 – 2022.06</td></tr>
-    <tr><td>충남대학교</td><td>문헌정보학과</td><td>특강</td><td class="mono">2022.04.29</td></tr>
-    <tr><td>육군본부</td><td>기록정보관리단</td><td>특강</td><td class="mono">2021.11.30</td></tr>
-    <tr><td>충남대학교</td><td>문헌정보학과</td><td>특강</td><td class="mono">2021.11.10</td></tr>
-    <tr><td>국가기록원 기록관리교육센터</td><td>전자기록 스페셜리스트과정(심화)</td><td>강사</td><td class="mono">2021.06.10</td></tr>
-    <tr><td>서울·경기·인천지역 지방공사·공단</td><td>2020년 제2차 기록관리협의회</td><td>특강</td><td class="mono">2020.10.16</td></tr>
-    <tr><td>서울·경기·인천지역 지방공사·공단</td><td>2019년 제3차 기록관리협의회</td><td>특강</td><td class="mono">2019.09.17</td></tr>
-    <tr><td>서울·경기·인천지역 지방공사·공단</td><td>2019년 제2차 기록관리협의회</td><td>특강</td><td class="mono">2019.06.27</td></tr>
-    <tr><td>한국원자력연구원</td><td>정보화전략 워크숍</td><td>특강</td><td class="mono">2018.10.18</td></tr>
-    <tr><td>과학기술분야 정부출연연구기관</td><td>과기 출연연 기록관리 실무자 세미나</td><td>특강</td><td class="mono">2018.08.17</td></tr>
-    <tr><td>한신대학교 일반대학원</td><td>기록관리학과</td><td>강사 (Team Teaching)</td><td class="mono">2017.08 – 2017.12</td></tr>
-  </tbody>
-</table>
-
-<table class="prof-table" data-lang="en">
-  <thead><tr><th>Institution</th><th>Department / Program</th><th>Position</th><th>Period</th></tr></thead>
-  <tbody>
-    <tr><td>Graduate School, Chungnam National University</td><td>Dept. of Archival Science</td><td>Guest Lecture</td><td class="mono">2026.06.04</td></tr>
-    <tr><td>National Research Council for Economics, Humanities and Social Sciences (NRC)</td><td>2nd Records Management Council Seminar 2025</td><td>Guest Lecture</td><td class="mono">2025.11.26</td></tr>
-    <tr><td>Korea SMEs & Startups Registrar (KOSRE)</td><td>ISO 30301(Records Management System) Lead Auditor Training</td><td>Instructor</td><td class="mono">2025.11.08 – 2025.11.09</td></tr>
-    <tr><td>Graduate School, Chungnam National University</td><td>Dept. of Archival Science</td><td>Lecturer</td><td class="mono">2022.09 – 2025.08</td></tr>
-    <tr><td>Hannam University</td><td>Dept. of History</td><td>Guest Lecture</td><td class="mono">2025.03.26</td></tr>
-    <tr><td>National Archives of Korea</td><td>2nd Records Management Research Seminar 2024</td><td>Guest Lecture</td><td class="mono">2024.12.20</td></tr>
-    <tr><td>Gachon Univ., Lifelong Education Center</td><td>Library &amp; Information Science Degree Program</td><td>Part-time Instructor</td><td class="mono">2023.12 – 2024.02 / 2022.04 – 2022.07</td></tr>
-    <tr><td>ROK Army Administrative School</td><td>Military Records Management Program</td><td>Adjunct Professor</td><td class="mono">2021.08 – 2023.06</td></tr>
-    <tr><td>Hankuk Univ. of Foreign Studies, Graduate School</td><td>Dept. of Information &amp; Records Management</td><td>Lecturer (Team Teaching)</td><td class="mono">2017.03 – 2017.07 / 2020.03 – 2022.06</td></tr>
-    <tr><td>Chungnam National University</td><td>Dept. of Library &amp; Information Science</td><td>Guest Lecture</td><td class="mono">2022.04.29</td></tr>
-    <tr><td>ROK Army Headquarters</td><td>Records Information Management Unit</td><td>Guest Lecture</td><td class="mono">2021.11.30</td></tr>
-    <tr><td>Chungnam National University</td><td>Dept. of Library &amp; Information Science</td><td>Guest Lecture</td><td class="mono">2021.11.10</td></tr>
-    <tr><td>National Archives of Korea, Records Management Education Center</td><td>Electronic Records Specialist Course (Advanced)</td><td>Instructor</td><td class="mono">2021.06.10</td></tr>
-    <tr><td>Seoul·Gyeonggi·Incheon Regional Public Corporations</td><td>2020 2nd Records Management Council</td><td>Guest Lecture</td><td class="mono">2020.10.16</td></tr>
-    <tr><td>Seoul·Gyeonggi·Incheon Regional Public Corporations</td><td>2019 3rd Records Management Council</td><td>Guest Lecture</td><td class="mono">2019.09.17</td></tr>
-    <tr><td>Seoul·Gyeonggi·Incheon Regional Public Corporations</td><td>2019 2nd Records Management Council</td><td>Guest Lecture</td><td class="mono">2019.06.27</td></tr>
-    <tr><td>Korea Atomic Energy Research Institute (KAERI)</td><td>Information Strategy Workshop</td><td>Guest Lecture</td><td class="mono">2018.10.18</td></tr>
-    <tr><td>Government-funded Research Institutions in Science &amp; Technology</td><td>Records Management Practitioners Seminar</td><td>Guest Lecture</td><td class="mono">2018.08.17</td></tr>
-    <tr><td>Graduate School, Hanshin University</td><td>Dept. of Archival Science</td><td>Lecturer (Team Teaching)</td><td class="mono">2017.08 – 2017.12</td></tr>
-  </tbody>
-</table>
- </div>
-
-  <!-- ── 4. 위원경력 ── -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-stamp">CAREER</span>
-      <span class="section-title" data-lang="kr">위원경력</span>
-      <span class="section-title" data-lang="en">Committee &amp; Advisory Experience</span>
-    </div>
-
-    <table class="prof-table" data-lang="kr">
-      <thead><tr><th>위원회명</th><th>기관명</th><th>역할</th><th>기간</th></tr></thead>
-      <tbody>
-        <tr><td>ISO/TC 46/SC 11(Archives/records management) 전문위원회</td><td>국가기술표준원</td><td>전문위원</td><td class="mono">2020.07 – 현재</td></tr>
-        <tr><td>ISO/IEC JTC 1/SC 23(Digitally recorded media for information interchange and storage) 전문위원회</td><td>국가기술표준원</td><td>전문위원</td><td class="mono">2026.06 – 현재</td></tr>
-        <tr><td>기록물평가심의회</td><td>교육부</td><td>심의위원</td><td class="mono">2026.01 – 현재</td></tr>
-        <tr><td>대통령기록물 콘텐츠 서비스 및 개선 자문위원회</td><td>대통령기록관</td><td>자문위원</td><td class="mono">2025.11</td></tr>
-        <tr><td>제안서 기술평가위원회</td><td>한국학중앙연구원</td><td>평가위원</td><td class="mono">2025.11</td></tr>
-        <tr><td>기록물평가심의회</td><td>교육부</td><td>심의위원</td><td class="mono">2025.10 – 현재</td></tr>
-        <tr><td>기록물평가심의회</td><td>한국교육개발원</td><td>심의위원</td><td class="mono">2025.08 – 현재</td></tr>
-        <tr><td>기록물평가심의회</td><td>새만금개발청</td><td>심의위원</td><td class="mono">2025.06 – 현재</td></tr>
-        <tr><td>제안서 기술평가위원회</td><td>5·18기념재단</td><td>평가위원</td><td class="mono">2025.04</td></tr>
-        <tr><td>기록물관리 전문요원 채용 면접위원회</td><td>국방시설본부</td><td>면접위원</td><td class="mono">2025.04 – 2025.10</td></tr>
-        <tr><td>기록물평가심의회</td><td>제5보병사단</td><td>심의위원</td><td class="mono">2025.02 – 현재</td></tr>
-        <tr><td>정보공개심의회</td><td>종로구시설관리공단</td><td>심의위원</td><td class="mono">2024.12 – 현재</td></tr>
-        <tr><td>국가 R&amp;D 사업 연구과제 평가위원회</td><td>국가기록원</td><td>평가위원</td><td class="mono">2024.12</td></tr>
-        <tr><td>기록물관리 자문위원회</td><td>한국부동산원</td><td>자문위원</td><td class="mono">2024.11 – 2025.02</td></tr>
-        <tr><td>노근리사건 아카이브 구축 자문위원회</td><td>노근리국제평화재단</td><td>자문위원</td><td class="mono">2024.05 – 2024.11</td></tr>
-        <tr><td>기록물평가심의회</td><td>종로구시설관리공단</td><td>심의위원</td><td class="mono">2024.03 – 현재</td></tr>
-        <tr><td>제안서 기술평가위원회</td><td>한국전력기술</td><td>평가위원</td><td class="mono">2023.12 – 현재</td></tr>
-        <tr><td>기록물평가심의회</td><td>화성도시공사</td><td>심의위원</td><td class="mono">2023.11 – 현재</td></tr>
-        <tr><td>기록물평가심의회</td><td>성남도시개발공사</td><td>심의위원</td><td class="mono">2023.09 – 현재</td></tr>
-        <tr><td>전자문서 신뢰 생성·보관 관리지침 개발 TF</td><td>한국인터넷진흥원</td><td>전문위원</td><td class="mono">2023.05 – 2023.12</td></tr>
-        <tr><td>기록물평가심의회</td><td>한국관광공사</td><td>심의위원</td><td class="mono">2023.04</td></tr>
-        <tr><td>정보공개심의회</td><td>오산도시공사</td><td>심의위원</td><td class="mono">2023.03 – 현재</td></tr>
-        <tr><td>기록물평가심의회</td><td>경기평택항만공사</td><td>심의위원</td><td class="mono">2023.02 – 2025.02</td></tr>
-        <tr><td>기록물평가심의회</td><td>국가생명윤리정책원</td><td>심의위원</td><td class="mono">2022.12</td></tr>
-        <tr><td>기록물평가심의회</td><td>경기관광공사</td><td>심의위원</td><td class="mono">2022.10 – 현재</td></tr>
-        <tr><td>제안서 기술평가위원회</td><td>공주학연구원</td><td>평가위원</td><td class="mono">2022.09</td></tr>
-        <tr><td>기록물관리 전문요원 채용 면접위원회</td><td>국방시설본부</td><td>면접위원</td><td class="mono">2022.07</td></tr>
-        <tr><td>군무원 교관직위 선발 심사위원회</td><td>육군종합행정학교</td><td>심사위원</td><td class="mono">2022.05</td></tr>
-        <tr><td>기록물관리 자문위원회</td><td>국방시설본부</td><td>자문위원</td><td class="mono">2021.12 – 현재</td></tr>
-        <tr><td>기록물평가심의회</td><td>국방시설본부</td><td>심의위원</td><td class="mono">2021.12 – 현재</td></tr>
-        <tr><td>기록물평가심의회</td><td>한국원자력의학원</td><td>심의위원</td><td class="mono">2021.11 – 현재</td></tr>
-        <tr><td>공주학아카이브 운영 자문위원회</td><td>공주학연구원</td><td>자문위원</td><td class="mono">2021.11</td></tr>
-        <tr><td>기록물평가심의회</td><td>여주도시공사</td><td>심의위원</td><td class="mono">2021.09 – 현재</td></tr>
-        <tr><td>재단 10대사업 아카이브 구축 자문위원회</td><td>대전문화재단</td><td>자문위원</td><td class="mono">2021.09 – 2021.12</td></tr>
-        <tr><td>제안서 기술평가위원회</td><td>대전문화재단</td><td>평가위원</td><td class="mono">2021.09</td></tr>
-        <tr><td>정보공개심의회</td><td>강북구도시관리공단</td><td>심의위원</td><td class="mono">2021.08 – 현재</td></tr>
-        <tr><td>Cloud RMS 도입 추진 기술자문위원회</td><td>육군본부</td><td>자문위원</td><td class="mono">2021.08 – 2023.08</td></tr>
-        <tr><td>제안서 기술평가위원회</td><td>군포시청</td><td>평가위원</td><td class="mono">2021.03</td></tr>
-        <tr><td>제안서 기술평가위원회</td><td>인천관광공사</td><td>평가위원</td><td class="mono">2020.12</td></tr>
-        <tr><td>기록물평가심의회</td><td>서울시설공단</td><td>심의위원</td><td class="mono">2020.11 – 2024.11</td></tr>
-        <tr><td>기록물평가심의회</td><td>중랑구시설관리공단</td><td>심의위원</td><td class="mono">2020.09 – 2022.09</td></tr>
-        <tr><td>기록관리 전략수립 및 체계구축 위원회</td><td>경기관광공사</td><td>자문위원</td><td class="mono">2019.11 – 2022.09</td></tr>
-        <tr><td>기록물평가심의회</td><td>군산대학교</td><td>심의위원</td><td class="mono">2018.12 – 2024.03</td></tr>
-        <tr><td>기록물평가심의회</td><td>오산도시공사</td><td>심의위원</td><td class="mono">2018.02 – 현재</td></tr>
-      </tbody>
-    </table>
-
-    <table class="prof-table" data-lang="en">
-      <thead><tr><th>Committee</th><th>Organization</th><th>Role</th><th>Period</th></tr></thead>
-      <tbody>
-        <tr><td>ISO/TC 46/SC 11(Archives/records management) Committee</td><td>Korean Agency for Technology and Standards(KATS)</td><td>Member</td><td class="mono">2020.07 – Present</td></tr>
-        <tr><td>ISO/IEC JTC 1/SC 23(Digitally recorded media for information interchange and storage) Committee</td><td>Korean Agency for Technology and Standards(KATS)</td><td>Member</td><td class="mono">2026.07 – Present</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>Ministry of Education</td><td>Review Member</td><td class="mono">2026.01 – Present</td></tr>
-        <tr><td>Presidential Records Content Services Advisory Committee</td><td>Presidential Archives</td><td>Advisory Member</td><td class="mono">2025.11</td></tr>
-        <tr><td>Proposal Technical Evaluation Committee</td><td>Academy of Korean Studies</td><td>Evaluator</td><td class="mono">2025.11</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>Ministry of Education</td><td>Review Member</td><td class="mono">2025.10 – Present</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>Korea Educational Development Institute</td><td>Review Member</td><td class="mono">2025.08 – Present</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>Saemangeum Development Agency</td><td>Review Member</td><td class="mono">2025.06 – Present</td></tr>
-        <tr><td>Proposal Technical Evaluation Committee</td><td>May 18th Memorial Foundation</td><td>Evaluator</td><td class="mono">2025.04</td></tr>
-        <tr><td>Records Professional Recruitment Interview Committee</td><td>Defense Facilities Agency</td><td>Interviewer</td><td class="mono">2025.04 – 2025.10</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>5th Infantry Division</td><td>Review Member</td><td class="mono">2025.02 – Present</td></tr>
-        <tr><td>Information Disclosure Review Committee</td><td>Jongno Facility Management Corp.</td><td>Review Member</td><td class="mono">2024.12 – Present</td></tr>
-        <tr><td>National R&amp;D Project Evaluation Committee</td><td>National Archives of Korea</td><td>Evaluator</td><td class="mono">2024.12</td></tr>
-        <tr><td>Records Management Advisory Committee</td><td>Korea Real Estate Board</td><td>Advisory Member</td><td class="mono">2024.11 – 2025.02</td></tr>
-        <tr><td>Nogeun-ri Archive Construction Advisory Committee</td><td>Nogeun-ri Int'l Peace Foundation</td><td>Advisory Member</td><td class="mono">2024.05 – 2024.11</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>Jongno Facility Management Corp.</td><td>Review Member</td><td class="mono">2024.03 – Present</td></tr>
-        <tr><td>Proposal Technical Evaluation Committee</td><td>KEPCO Engineering &amp; Construction</td><td>Evaluator</td><td class="mono">2023.12 – Present</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>Hwaseong Urban Corporation</td><td>Review Member</td><td class="mono">2023.11 – Present</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>Seongnam Development Corporation</td><td>Review Member</td><td class="mono">2023.09 – Present</td></tr>
-        <tr><td>Electronic Document TF (Trusted Creation/Storage)</td><td>Korea Internet &amp; Security Agency</td><td>Expert Member</td><td class="mono">2023.05 – 2023.12</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>Korea Tourism Organization</td><td>Review Member</td><td class="mono">2023.04</td></tr>
-        <tr><td>Information Disclosure Review Committee</td><td>Osan Urban Corporation</td><td>Review Member</td><td class="mono">2023.03 – Present</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>Gyeonggi Pyeongtaek Port Corporation</td><td>Review Member</td><td class="mono">2023.02 – 2025.02</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>Korea National Institute for Bioethics Policy</td><td>Review Member</td><td class="mono">2022.12</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>Gyeonggi Tourism Organization</td><td>Review Member</td><td class="mono">2022.10 – Present</td></tr>
-        <tr><td>Records Management Advisory Committee</td><td>Defense Facilities Agency</td><td>Advisory Member</td><td class="mono">2021.12 – Present</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>Defense Facilities Agency</td><td>Review Member</td><td class="mono">2021.12 – Present</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>Korea Institute of Radiological and Medical Sciences (KIRAMS)</td><td>Review Member</td><td class="mono">2021.11 – Present</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>Yeoju Urban Corp.</td><td>Review Member</td><td class="mono">2021.09 – Present</td></tr>
-        <tr><td>Information Disclosure Review Committee</td><td>Gangbuk District Facility Management Corp.</td><td>Review Member</td><td class="mono">2021.08 – Present</td></tr>
-        <tr><td>Cloud RMS Technical Advisory Committee</td><td>Army Headquarters</td><td>Technical Advisor</td><td class="mono">2021.08 – 2023.08</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>Seoul Facilities Corporation</td><td>Review Member</td><td class="mono">2020.11 – 2024.11</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>Jungnang District Facility Management Corp.</td><td>Review Member</td><td class="mono">2020.09 – 2022.09</td></tr>
-        <tr><td>Records Management Strategy Committee</td><td>Gyeonggi Tourism Organization</td><td>Advisory Member</td><td class="mono">2019.11 – 2022.09</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>Kunsan University</td><td>Review Member</td><td class="mono">2018.12 – 2024.03</td></tr>
-        <tr><td>Records Appraisal Review Committee</td><td>Osan Urban Corporation</td><td>Review Member</td><td class="mono">2018.02 – Present</td></tr>
-      </tbody>
-    </table>
+    <div id="admLogList"></div>
   </div>
-
-  <!-- ── 5. 프로젝트 경력 ── -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-stamp">PJT</span>
-      <span class="section-title" data-lang="kr">프로젝트 경력</span>
-      <span class="section-title" data-lang="en">Project Experience</span>
-    </div>
-
-    <table class="prof-table" data-lang="kr">
-      <thead><tr><th>기관명</th><th>사업명</th><th style="width:76px">역할</th><th>기간</th></tr></thead>
-      <tbody>
-        <tr><td>국방과학연구소</td><td>기록관리시스템 통합 파일 운영체계 개편</td><td><span class="tag consulting">컨설팅</span></td><td class="mono">2026.05–2026.12</td></tr>
-        <tr><td>중소벤처기업인증원</td><td>ISO 30301(기록경영시스템) 인증 심사/아키브소프트</td><td><span class="tag Lead Auditor">심사팀장</span></td><td class="mono">2025.12–2025.12</td></tr>
-        <tr><td>광주비엔날레</td><td>AI 라키비움 구축 정보화전략계획(ISP) 수립</td><td><span class="tag pl">PL</span></td><td class="mono">2025.06–2025.10</td></tr>
-        <tr><td>행정중심복합도시건설청</td><td>행복도시 건설기록 유네스코 세계기록유산 등재 신청 후속조치 용역</td><td><span class="tag pl">PL</span></td><td class="mono">2025.05–2025.06</td></tr>
-        <tr><td>국가기록원</td><td>2025년 기록물 생산관리통합시스템 ISMP 수립</td><td><span class="tag consulting">컨설팅</span></td><td class="mono">2025.04–2025.07</td></tr>
-        <tr><td>국방과학연구소</td><td>기록관리시스템 통합 활용 및 보안 환경 구축</td><td><span class="tag consulting">컨설팅</span></td><td class="mono">2025.03–2025.04</td></tr>
-        <tr><td>한국과학창의재단</td><td>기록물 정리·이관 용역</td><td><span class="tag consulting">컨설팅</span></td><td class="mono">2025.01–2025.03</td></tr>
-        <tr><td>노근리국제평화재단</td><td>노근리사건 아카이브 구축을 위한 현황분석 및 개선방안 연구</td><td><span class="tag pm">PM</span></td><td class="mono">2024.10–2024.11</td></tr>
-        <tr><td>대한민국 국회</td><td>국회기록물의 체계적 관리 등을 위한 국회기록원 설립방안 연구</td><td><span class="tag consulting">컨설팅</span></td><td class="mono">2024.09–2024.12</td></tr>
-        <tr><td>한국관광공사</td><td>공사 기록분류체계 재정비 및 기록관리활용 현황분석 연구용역</td><td><span class="tag pm">PM</span></td><td class="mono">2024.08–2024.11</td></tr>
-        <tr><td>국가기록원</td><td>국가중요기록 보존 및 활용을 위한 중장기 기획연구</td><td><span class="tag pl">PL</span></td><td class="mono">2024.07–2024.11</td></tr>
-        <tr><td>경기도 이천시</td><td>기록물관리기관 건립 타당성 조사 및 기본계획 수립 연구용역</td><td><span class="tag pm">PM</span></td><td class="mono">2024.07–2024.12</td></tr>
-        <tr><td>행정중심복합도시건설청</td><td>행복도시 건설기록 세계기록유산 등재 신청 용역</td><td><span class="tag pl">PL</span></td><td class="mono">2024.06–2025.04</td></tr>
-        <tr><td>국방과학연구소</td><td>기록관리시스템 및 데이터 표준화 방안 수립 BPR/ISP</td><td><span class="tag pl">PL</span></td><td class="mono">2024.02–2024.06</td></tr>
-        <tr><td>영등포구시설관리공단</td><td>2023년 전자기록물 정리 용역</td><td><span class="tag pm">PM</span></td><td class="mono">2023.10–2023.12</td></tr>
-        <tr><td>한국가스안전공사</td><td>검사서류 보존기간 등 기록물 분류기준 현행화 연구용역</td><td><span class="tag pm">PM</span></td><td class="mono">2023.10–2023.11</td></tr>
-        <tr><td>한국관광공사</td><td>2023년 공사 기록물 공개재분류 및 DB 구축</td><td><span class="tag pm">PM</span></td><td class="mono">2023.09–2023.12</td></tr>
-        <tr><td>국가기록원</td><td>국가기록물 대상 초거대 AI 학습을 위한 말뭉치 데이터 수집</td><td><span class="tag pm">PM</span></td><td class="mono">2023.08–2023.12</td></tr>
-        <tr><td>한국가스안전공사</td><td>검사서류 디지털 데이터베이스(DB) 구축</td><td><span class="tag pl">PL</span></td><td class="mono">2023.08–2023.12</td></tr>
-        <tr><td>한국교통안전공단</td><td>클라우드 기반 온나라시스템 및 기록관리시스템 구축</td><td><span class="tag consulting">컨설팅</span></td><td class="mono">2023.07–2023.12</td></tr>
-        <tr><td>한국임업진흥원</td><td>업무포털시스템 재구축</td><td><span class="tag pl">PL</span></td><td class="mono">2023.06–2023.12</td></tr>
-        <tr><td>행정중심복합도시건설청</td><td>행복도시 건설기록 유네스코 세계기록유산 등재를 위한 기초조사</td><td><span class="tag pl">PL</span></td><td class="mono">2023.06–2023.12</td></tr>
-        <tr><td>교육부</td><td>교육관련기관의 기록관리 법제 환경 개선 방안 연구</td><td><span class="tag pm">PM</span></td><td class="mono">2023.05–2023.09</td></tr>
-        <tr><td>한국관광공사</td><td>2022년 공사 기록물 공개재분류 및 건목록화</td><td><span class="tag pm">PM</span></td><td class="mono">2022.09–2022.12</td></tr>
-        <tr><td>한국광해광업공단</td><td>기록관리시스템 구축 용역</td><td><span class="tag pl">PL</span></td><td class="mono">2022.06–2022.11</td></tr>
-        <tr><td>국가기록원</td><td>2022년 행정정보 데이터세트 기록관리체계 구축</td><td><span class="tag pl">PL</span></td><td class="mono">2022.06–2022.12</td></tr>
-        <tr><td>중앙선거관리위원회</td><td>선거기록관 정보화전략계획 수립</td><td><span class="tag pl">PL</span></td><td class="mono">2022.06–2022.09</td></tr>
-        <tr><td>그랜드코리아레저</td><td>행정정보 데이터세트 관리방안 공동연구(JDC/SR)</td><td><span class="tag pl">PL</span></td><td class="mono">2022.05–2022.11</td></tr>
-        <tr><td>한국가스안전공사</td><td>검사서류 전산화 및 기록물 관리 개선방안 수립 연구</td><td><span class="tag pm">PM</span></td><td class="mono">2021.12–2022.04</td></tr>
-        <tr><td>한국가스공사</td><td>기록관리체계 및 분류기준 고도화</td><td><span class="tag pl">PL</span></td><td class="mono">2021.09–2021.12</td></tr>
-        <tr><td>한국관광공사</td><td>공사 기록물 공개재분류 및 건목록화</td><td><span class="tag pm">PM</span></td><td class="mono">2021.09–2021.12</td></tr>
-        <tr><td>국가기록원</td><td>2021년 행정정보 데이터세트 기록관리체계 구축</td><td><span class="tag pl">PL</span></td><td class="mono">2021.07–2021.12</td></tr>
-        <tr><td>한국교육학술정보원</td><td>코러스 기록관리시스템 구축을 위한 정보화전략계획(ISP) 수립</td><td><span class="tag pm">PM</span></td><td class="mono">2021.06–2021.10</td></tr>
-        <tr><td>조선대학교</td><td>전자문서시스템 재구축 및 기록관리시스템 구축</td><td><span class="tag pl">PL</span></td><td class="mono">2021.05–2021.11</td></tr>
-        <tr><td>주식회사 에스알</td><td>기록관리시스템 구축</td><td><span class="tag pl">PL</span></td><td class="mono">2021.04–2021.10</td></tr>
-        <tr><td>국가기록원</td><td>빅데이터·인공지능 기술을 활용한 대학 기록관리 표준모델 연구</td><td><span class="tag pm">PM</span></td><td class="mono">2021.04–2021.11</td></tr>
-        <tr><td>경상북도문화관광공사</td><td>기록관리시스템 구축전략 수립</td><td><span class="tag pl">PL</span></td><td class="mono">2021.01–2021.04</td></tr>
-        <tr><td>5·18민주화운동기록관</td><td>5·18 민주화운동 기록물 통합 DB 구축 ISP 수립</td><td><span class="tag consulting">컨설팅</span></td><td class="mono">2020.09–2020.11</td></tr>
-        <tr><td>충청북도</td><td>유류피해극복과정 세계기록유산 등재를 위한 자료 수집 및 신청서 작성</td><td><span class="tag pm">PM</span></td><td class="mono">2020.08–2020.12</td></tr>
-        <tr><td>한국가스기술공사</td><td>한국가스기술공사 기록관리시스템 구축</td><td><span class="tag pm">PM</span></td><td class="mono">2020.08–2020.12</td></tr>
-        <tr><td>제주관광공사</td><td>기록관리시스템 구축전략 수립</td><td><span class="tag pl">PL</span></td><td class="mono">2020.08–2020.10</td></tr>
-        <tr><td>특수기록관</td><td>특수기록관 기록물통합관리시스템 구축</td><td><span class="tag pl">PL</span></td><td class="mono">2019.08–2020.05</td></tr>
-        <tr><td>한국산업안전보건공단</td><td>한국산업안전보건공단 기록관리시스템 구축</td><td><span class="tag pl">PL</span></td><td class="mono">2019.06–2019.08</td></tr>
-        <tr><td>한국국제협력단</td><td>페루 전자정부·ICT분야 ODA사업(국가문화유산 통합등록 및 관리시스템 구축) 통합감리</td><td><span class="tag supervision">감리</span></td><td class="mono">2018.08–2018.08</td></tr>
-        <tr><td>국가기록원</td><td>정부지식 공유활용기반 고도화 4차(중앙부처 클라우드 기록관리 확산)</td><td><span class="tag pm">PM</span></td><td class="mono">2018.07–2019.01</td></tr>
-        <tr><td>세네갈 정보통신진흥청(ADIE)</td><td>세네갈 ICT 인프라 및 국가기록센터(NAC) 설립 타당성 조사</td><td><span class="tag consulting">컨설팅</span></td><td class="mono">2017.05–2017.08</td></tr>
-      </tbody>
-    </table>
-
-    <table class="prof-table" data-lang="en">
-  <thead><tr><th>Committee</th><th>Organization</th><th>Role</th><th>Period</th></tr></thead>
-  <tbody>
-    <tr><td>ISO/TC 46/SC 11 (Archives/records management) Committee</td><td>Korean Agency for Technology and Standards (KATS)</td><td>Expert Member</td><td class="mono">2020.07 – Present</td></tr>
-    <tr><td>ISO/IEC JTC 1/SC 23 (Digitally recorded media for information interchange and storage) Committee</td><td>Korean Agency for Technology and Standards (KATS)</td><td>Expert Member</td><td class="mono">2026.06 – Present</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>Ministry of Education</td><td>Review Member</td><td class="mono">2026.01 – Present</td></tr>
-    <tr><td>Presidential Records Content Services and Improvement Advisory Committee</td><td>Presidential Archives</td><td>Advisory Member</td><td class="mono">2025.11</td></tr>
-    <tr><td>Proposal Technical Evaluation Committee</td><td>Academy of Korean Studies</td><td>Evaluator</td><td class="mono">2025.11</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>Ministry of Education</td><td>Review Member</td><td class="mono">2025.10 – Present</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>Korea Educational Development Institute</td><td>Review Member</td><td class="mono">2025.08 – Present</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>Saemangeum Development and Investment Agency</td><td>Review Member</td><td class="mono">2025.06 – Present</td></tr>
-    <tr><td>Proposal Technical Evaluation Committee</td><td>May 18 Memorial Foundation</td><td>Evaluator</td><td class="mono">2025.04</td></tr>
-    <tr><td>Records Management Specialist Recruitment Interview Committee</td><td>Defense Installations Agency</td><td>Interviewer</td><td class="mono">2025.04 – 2025.10</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>ROK Army 5th Infantry Division</td><td>Review Member</td><td class="mono">2025.02 – Present</td></tr>
-    <tr><td>Information Disclosure Review Committee</td><td>Jongno-gu Facilities Management Corporation</td><td>Review Member</td><td class="mono">2024.12 – Present</td></tr>
-    <tr><td>National R&amp;D Project Research Proposal Evaluation Committee</td><td>National Archives of Korea</td><td>Evaluator</td><td class="mono">2024.12</td></tr>
-    <tr><td>Records Management Advisory Committee</td><td>Korea Real Estate Board</td><td>Advisory Member</td><td class="mono">2024.11 – 2025.02</td></tr>
-    <tr><td>Nogeun-ri Incident Archive Development Advisory Committee</td><td>Nogeun-ri International Peace Foundation</td><td>Advisory Member</td><td class="mono">2024.05 – 2024.11</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>Jongno-gu Facilities Management Corporation</td><td>Review Member</td><td class="mono">2024.03 – Present</td></tr>
-    <tr><td>Proposal Technical Evaluation Committee</td><td>KEPCO Engineering &amp; Construction Company, Inc.</td><td>Evaluator</td><td class="mono">2023.12 – Present</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>Hwaseong Urban Corporation</td><td>Review Member</td><td class="mono">2023.11 – Present</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>Seongnam Development Corporation</td><td>Review Member</td><td class="mono">2023.09 – Present</td></tr>
-    <tr><td>Task Force for Guidelines on Trusted Creation and Storage of Electronic Documents</td><td>Korea Internet &amp; Security Agency (KISA)</td><td>Expert Member</td><td class="mono">2023.05 – 2023.12</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>Korea Tourism Organization</td><td>Review Member</td><td class="mono">2023.04</td></tr>
-    <tr><td>Information Disclosure Review Committee</td><td>Osan Urban Corporation</td><td>Review Member</td><td class="mono">2023.03 – Present</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>Gyeonggi Pyeongtaek Port Corporation</td><td>Review Member</td><td class="mono">2023.02 – 2025.02</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>Korea National Institute for Bioethics Policy</td><td>Review Member</td><td class="mono">2022.12</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>Gyeonggi Tourism Organization</td><td>Review Member</td><td class="mono">2022.10 – Present</td></tr>
-    <tr><td>Proposal Technical Evaluation Committee</td><td>Gongju Studies Institute</td><td>Evaluator</td><td class="mono">2022.09</td></tr>
-    <tr><td>Records Management Specialist Recruitment Interview Committee</td><td>Defense Installations Agency</td><td>Interviewer</td><td class="mono">2022.07</td></tr>
-    <tr><td>Civilian Military Instructor Position Selection Committee</td><td>ROK Army Administrative School</td><td>Selection Committee Member</td><td class="mono">2022.05</td></tr>
-    <tr><td>Records Management Advisory Committee</td><td>Defense Installations Agency</td><td>Advisory Member</td><td class="mono">2021.12 – Present</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>Defense Installations Agency</td><td>Review Member</td><td class="mono">2021.12 – Present</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>Korea Institute of Radiological and Medical Sciences (KIRAMS)</td><td>Review Member</td><td class="mono">2021.11 – Present</td></tr>
-    <tr><td>Gongju Studies Archive Operations Advisory Committee</td><td>Gongju Studies Institute</td><td>Advisory Member</td><td class="mono">2021.11</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>Yeoju Urban Corporation</td><td>Review Member</td><td class="mono">2021.09 – Present</td></tr>
-    <tr><td>Foundation’s Top 10 Projects Archive Development Advisory Committee</td><td>Daejeon Culture and Arts Foundation</td><td>Advisory Member</td><td class="mono">2021.09 – 2021.12</td></tr>
-    <tr><td>Proposal Technical Evaluation Committee</td><td>Daejeon Culture and Arts Foundation</td><td>Evaluator</td><td class="mono">2021.09</td></tr>
-    <tr><td>Information Disclosure Review Committee</td><td>Gangbuk-gu Urban Management Corporation</td><td>Review Member</td><td class="mono">2021.08 – Present</td></tr>
-    <tr><td>Cloud RMS Implementation Technical Advisory Committee</td><td>ROK Army Headquarters</td><td>Technical Advisor</td><td class="mono">2021.08 – 2023.08</td></tr>
-    <tr><td>Proposal Technical Evaluation Committee</td><td>Gunpo City Hall</td><td>Evaluator</td><td class="mono">2021.03</td></tr>
-    <tr><td>Proposal Technical Evaluation Committee</td><td>Incheon Tourism Organization</td><td>Evaluator</td><td class="mono">2020.12</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>Seoul Facilities Corporation</td><td>Review Member</td><td class="mono">2020.11 – 2024.11</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>Jungnang-gu Facilities Management Corporation</td><td>Review Member</td><td class="mono">2020.09 – 2022.09</td></tr>
-    <tr><td>Records Management Strategy and System Establishment Committee</td><td>Gyeonggi Tourism Organization</td><td>Advisory Member</td><td class="mono">2019.11 – 2022.09</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>Kunsan National University</td><td>Review Member</td><td class="mono">2018.12 – 2024.03</td></tr>
-    <tr><td>Records Appraisal Review Committee</td><td>Osan Urban Corporation</td><td>Review Member</td><td class="mono">2018.02 – Present</td></tr>
-  </tbody>
-</table>
-  </div>
-
-<!-- ── 6. 표준화경력 ── -->
-<div class="section">
-  <div class="section-header">
-    <span class="section-stamp">STD.</span>
-    <span class="section-title" data-lang="kr">표준화경력</span>
-    <span class="section-title" data-lang="en">Standardization Activities</span>
-  </div>
-
-  <table class="prof-table" data-lang="kr">
-    <thead><tr><th>표준명</th><th>담당업무</th><th>연도</th></tr></thead>
-    <tbody>
-      <tr><td>ISO/TC 46/SC 11 AHG7 N2386 (Findings Report of the ISO 15489 Review Research)</td><td>검토 (국제표준개정)</td><td class="mono">2026</td></tr>
-      <tr><td>ISO 16175-1:2020 Information and documentation - Processes and functional requirements for software for managing records - Part 1: Functional requirements and associated guidance for any applications that manage digital records</td><td>WG (국제표준부합화)</td><td class="mono">2026</td></tr>
-      <tr><td>KS X 6500 필수기록관리와 기록관리 재난대비계획</td><td>검토 (국제표준부합화)</td><td class="mono">2025</td></tr>
-      <tr><td>KS X ISO/TR 17068 문헌정보 – 디지털 기록 신뢰기반 제3자 보관소</td><td>검토 (국제표준부합화)</td><td class="mono">2025</td></tr>
-      <tr><td>KS X ISO 16175-3 문헌정보 – 전자사무환경에서 기록에 대한 원리 및 기능요건 제3부: 업무시스템의 기록관리지침 및 기능요건</td><td>검토 (국제표준부합화)</td><td class="mono">2025</td></tr>
-      <tr><td>KS X ISO 23081-1 문헌정보 – 기록관리과정 – 기록메타데이터 – 제1부: 원칙</td><td>검토 (국제표준부합화)</td><td class="mono">2025</td></tr>
-      <tr><td>KS X ISO 23081-2 문헌정보 – 기록관리과정 – 기록메타데이터 – 제2부: 개념과 실행 고려사항</td><td>검토 (국제표준부합화)</td><td class="mono">2025</td></tr>
-      <tr><td>ISO XXX Information and documentation - Managing records in cloud computing environments: Risk Management</td><td>논의 (국제표준개발)</td><td class="mono">2024</td></tr>
-      <tr><td>ISO/TR 8344:2024 — Information and documentation — Issues and considerations for managing records in structured data environments</td><td>Review</td><td class="mono">2024</td></tr>
-      <tr><td>ISO 23081-2:2021 — Information and documentation — Metadata for managing records — Part 2: Conceptual and implementation issues</td><td>Review</td><td class="mono">2024</td></tr>
-      <tr><td>ISO 16175-1:2020 — Information and documentation — Processes and functional requirements for software for managing records — Part 1: Functional requirements and associated guidance for any applications that manage digital records</td><td>Review</td><td class="mono">2024</td></tr>
-      <tr><td>ISO 16175-2:2020 — Information and documentation — Processes and functional requirements for software for managing records — Part 2: Guidance for selecting, designing, implementing and maintaining software for managing records</td><td>Review</td><td class="mono">2024</td></tr>
-      <tr><td>KS X ISO 13008:2022 문헌정보 – 디지털기록 변환과 마이그레이션 프로세스</td><td>검토 (국제표준부합화)</td><td class="mono">2024</td></tr>
-      <tr><td>KS X ISO/TR 21965:2019 문헌정보 – 엔터프라이즈 아키텍처에서의 기록관리</td><td>검토 (제정신청본)</td><td class="mono">2023</td></tr>
-      <tr><td>KS X ISO/TR 22428-1:2020 클라우드 컴퓨팅 환경에서의 기록관리 – 제1부: 쟁점과 우려 사항</td><td>검토 (제정신청본)</td><td class="mono">2023</td></tr>
-      <tr><td>KS X ISO 13008 문헌정보 – 디지털기록 변환과 마이그레이션 프로세스</td><td>검토 (국제표준부합화)</td><td class="mono">2023</td></tr>
-      <tr><td>KS X ISO 30302 문헌정보 – 기록경영시스템 – 실행지침</td><td>검토 (국제표준부합화)</td><td class="mono">2023</td></tr>
-      <tr><td>KS X ISO/TR 21965:2019 문헌정보 – 엔터프라이즈 아키텍처에서의 기록관리</td><td>검토 (제정신청본)</td><td class="mono">2022</td></tr>
-      <tr><td>KS X ISO/TR 22428-1:2020 클라우드 컴퓨팅 환경에서의 기록관리 – 제1부: 쟁점과 우려 사항</td><td>검토 (제정신청본)</td><td class="mono">2022</td></tr>
-      <tr><td>KS X ISO/TR 21946:2018 문헌정보 – 기록의 관리를 위한 평가</td><td>검토 (국제표준부합화)</td><td class="mono">2022</td></tr>
-      <tr><td>KS X ISO/TR 18128 문헌정보 – 기록 프로세스와 시스템의 위험평가</td><td>검토 (국제표준부합화)</td><td class="mono">2022</td></tr>
-      <tr><td>KS X ISO/TR 21965:2019 문헌정보 – 엔터프라이즈 아키텍처에서의 기록관리</td><td>검토 (제정신청본)</td><td class="mono">2021</td></tr>
-      <tr><td>KS X ISO/TR 22428-1:2020 클라우드 컴퓨팅 환경에서의 기록관리 – 제1부: 쟁점과 우려 사항</td><td>원안작성협력 (제정신청본)</td><td class="mono">2021</td></tr>
-      <tr><td>ISO 15489-1:2016 문헌정보 – 기록관리 – 제1부: 개념과 원칙</td><td>검토 (국제표준부합화)</td><td class="mono">2021</td></tr>
-      <tr><td>ISO 15489-1:2016 (Ed 2) Records management - Part 1: Concepts and principles</td><td>Review</td><td class="mono">2021</td></tr>
-      <tr><td>ISO/IEC DTS 17021-14 Conformity assessment — Requirements for auditing and certification of management systems — Part 14: Competence requirements for auditing and certification of management systems for records</td><td>Comment</td><td class="mono">2021</td></tr>
-      <tr><td>ISO/DIS 13008 (Ed 2) Information and documentation - Digital records conversion and migration process</td><td>Approval/Voting</td><td class="mono">2021</td></tr>
-      <tr><td>KS X ISO 30300:2020 문헌정보 – 기록관리 – 핵심 개념과 어휘</td><td>원안작성협력</td><td class="mono">2020</td></tr>
-      <tr><td>KS X ISO 30301:2019 문헌정보 – 기록경영시스템 – 요구사항</td><td>원안작성협력</td><td class="mono">2020</td></tr>
-      <tr><td>KS X ISO 23081:2017 문헌정보 – 기록기록관리과정 – 기록메타데이터 – 제1부: 원칙</td><td>검토 (국제표준부합화)</td><td class="mono">2020</td></tr>
-    </tbody>
-  </table>
-
-  <table class="prof-table" data-lang="en">
-    <thead><tr><th>Standard</th><th>Activity</th><th>Year</th></tr></thead>
-    <tbody>
-      <tr><td>ISO/TC 46/SC 11 AHG7 N2386 — Findings Report of the ISO 15489 Review Research</td><td>Review (International Standard Revision)</td><td class="mono">2026</td></tr>
-      <tr><td>ISO 16175-1:2020 — Processes and functional requirements for software for managing records, Part 1</td><td>WG (Harmonization)</td><td class="mono">2026</td></tr>
-      <tr><td>KS X 6500 — Vital Records Management &amp; Disaster Planning for Records</td><td>Review (Harmonization)</td><td class="mono">2025</td></tr>
-      <tr><td>KS X ISO/TR 17068 — Trusted Third-Party Repository for Digital Records</td><td>Review (Harmonization)</td><td class="mono">2025</td></tr>
-      <tr><td>KS X ISO 16175-3 — Principles and Functional Requirements for Records in Electronic Office Environments, Part 3</td><td>Review (Harmonization)</td><td class="mono">2025</td></tr>
-      <tr><td>KS X ISO 23081-1 — Metadata for Managing Records, Part 1: Principles</td><td>Review (Harmonization)</td><td class="mono">2025</td></tr>
-      <tr><td>KS X ISO 23081-2 — Metadata for Managing Records, Part 2: Conceptual and Implementation Issues</td><td>Review (Harmonization)</td><td class="mono">2025</td></tr>
-      <tr><td>ISO XXX — Managing records in cloud computing environments: Risk Management</td><td>International Standard Development (Discussion)</td><td class="mono">2024</td></tr>
-      <tr><td>ISO/TR 8344:2024 — Issues and considerations for managing records in structured data environments</td><td>Review</td><td class="mono">2024</td></tr>
-      <tr><td>ISO 23081-2:2021 — Metadata for managing records, Part 2: Conceptual and implementation issues</td><td>Review</td><td class="mono">2024</td></tr>
-      <tr><td>ISO 16175-1:2020 — Processes and functional requirements for software for managing records, Part 1</td><td>Review</td><td class="mono">2024</td></tr>
-      <tr><td>ISO 16175-2:2020 — Processes and functional requirements for software for managing records, Part 2</td><td>Review</td><td class="mono">2024</td></tr>
-      <tr><td>KS X ISO 13008:2022 — Digital Records Conversion and Migration Process</td><td>Review (Harmonization)</td><td class="mono">2024</td></tr>
-      <tr><td>KS X ISO/TR 21965:2019 — Records Management in Enterprise Architecture</td><td>Review (New Standard Application)</td><td class="mono">2023</td></tr>
-      <tr><td>KS X ISO/TR 22428-1:2020 — Managing Records in Cloud Computing Environments, Part 1</td><td>Review (New Standard Application)</td><td class="mono">2023</td></tr>
-      <tr><td>KS X ISO 13008 — Digital Records Conversion and Migration Process</td><td>Review (Harmonization)</td><td class="mono">2023</td></tr>
-      <tr><td>KS X ISO 30302 — Records Management System Implementation Guide</td><td>Review (Harmonization)</td><td class="mono">2023</td></tr>
-      <tr><td>KS X ISO/TR 21965:2019 — Records Management in Enterprise Architecture</td><td>Review (New Standard Application)</td><td class="mono">2022</td></tr>
-      <tr><td>KS X ISO/TR 22428-1:2020 — Managing Records in Cloud Computing Environments, Part 1</td><td>Review (New Standard Application)</td><td class="mono">2022</td></tr>
-      <tr><td>KS X ISO/TR 21946:2018 — Appraisal for Managing Records</td><td>Review (Harmonization)</td><td class="mono">2022</td></tr>
-      <tr><td>KS X ISO/TR 18128 — Risk Assessment for Records Processes and Systems</td><td>Review (Harmonization)</td><td class="mono">2022</td></tr>
-      <tr><td>KS X ISO/TR 21965:2019 — Records Management in Enterprise Architecture</td><td>Review (New Standard Application)</td><td class="mono">2021</td></tr>
-      <tr><td>KS X ISO/TR 22428-1:2020 — Managing Records in Cloud Computing Environments, Part 1</td><td>Draft Preparation (New Standard Application)</td><td class="mono">2021</td></tr>
-      <tr><td>ISO 15489-1:2016 — Records management, Part 1: Concepts and principles</td><td>Review (Harmonization)</td><td class="mono">2021</td></tr>
-      <tr><td>ISO 15489-1:2016 (Ed 2) Records management - Part 1: Concepts and principles</td><td>Review</td><td class="mono">2021</td></tr>
-      <tr><td>ISO/IEC DTS 17021-14 — Competence requirements for auditing and certification of management systems for records</td><td>Comment</td><td class="mono">2021</td></tr>
-      <tr><td>ISO/DIS 13008 (Ed 2) — Digital records conversion and migration process</td><td>Approval/Voting</td><td class="mono">2021</td></tr>
-      <tr><td>KS X ISO 30300:2020 — Core Concepts and Vocabulary for Records Management</td><td>Draft Preparation</td><td class="mono">2020</td></tr>
-      <tr><td>KS X ISO 30301:2019 — Requirements for Records Management Systems</td><td>Draft Preparation</td><td class="mono">2020</td></tr>
-      <tr><td>KS X ISO 23081:2017 — Records Metadata, Part 1: Principles</td><td>Review (Harmonization)</td><td class="mono">2020</td></tr>
-    </tbody>
-  </table>
 </div>
 
-  <!-- ── 7. 특허실적 ── -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-stamp">PAT.</span>
-      <span class="section-title" data-lang="kr">특허실적</span>
-      <span class="section-title" data-lang="en">Patent</span>
+<!-- PASSWORD CHANGE -->
+<div class="adm-overlay" id="admPwModal" style="z-index:700">
+  <div class="adm-pw-box">
+    <div class="adm-box-title" style="color:var(--gold)">🔑 비밀번호 변경</div>
+    <div class="adm-field"><label class="adm-label">현재 비밀번호</label>
+      <input type="password" class="adm-input" id="pwCurrent" placeholder="현재 비밀번호"></div>
+    <div class="adm-field"><label class="adm-label">새 비밀번호</label>
+      <input type="password" class="adm-input" id="pwNew" placeholder="새 비밀번호 (4자 이상)"></div>
+    <div class="adm-field"><label class="adm-label">새 비밀번호 확인</label>
+      <input type="password" class="adm-input" id="pwConfirm" placeholder="재입력"></div>
+    <div class="adm-err" id="pwErr"></div>
+    <div class="adm-row">
+      <button class="adm-btn primary" onclick="admSavePw()">변경 저장</button>
+      <button class="adm-btn secondary" onclick="admClosePwChange()">취소</button>
     </div>
-
-    <table class="prof-table" data-lang="kr">
-      <thead><tr><th>특허명</th><th>출원인</th><th>발명자</th><th>출원번호</th><th>출원일자</th></tr></thead>
-      <tbody>
-        <tr>
-          <td>머신 러닝 기반의 기록관리 표준모델 추천 시스템</td>
-          <td>대한민국 (국가기록원)</td>
-          <td>김주영, 정광희, 강민균</td>
-          <td class="mono">특허-2021-0156943</td>
-          <td class="mono">2021.11.15</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <table class="prof-table" data-lang="en">
-      <thead><tr><th>Title</th><th>Applicant</th><th>Inventors</th><th>Application No.</th><th>Filed</th></tr></thead>
-      <tbody>
-        <tr>
-          <td>Machine Learning-Based Records Management Standard Model Recommendation System</td>
-          <td>Republic of Korea (National Archives of Korea)</td>
-          <td>Kim Juyoung, Jung Gwanghee, Kang Minkyun</td>
-          <td class="mono">KR 2021-0156943</td>
-          <td class="mono">2021.11.15</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
-
-  <!-- ── 8. 연구실적 ── -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-stamp">PUB.</span>
-      <span class="section-title" data-lang="kr">연구실적</span>
-      <span class="section-title" data-lang="en">Publications &amp; Research</span>
-    </div>
-
-<table class="prof-table" data-lang="kr">
-  <thead><tr><th>논문명/주제</th><th>학술지명/행사명</th><th>연도/일자</th><th>링크</th></tr></thead>
-  <tbody>
-    <tr>
-      <td>AI 기반 기록관리의 설명책임성 확보를 위한 파라데이터 확장 스키마 연구: ISO 23081-2와 Human-in-the-Loop를 중심으로</td>
-      <td>한국기록관리학회지</td>
-      <td class="mono">2026</td>
-      <td><a href="https://dx.doi.org/10.14404/JKSARM.2026.26.2.113" class="paper-link" target="_blank">DOI</a></td>
-    </tr>
-    <tr>
-      <td>ISO 14721:2025 개정의 핵심 변화 분석과 국내 기록관리시스템의 적용 방안</td>
-      <td>한국기록관리학회지</td>
-      <td class="mono">2025</td>
-      <td><a href="https://doi.org/10.14404/JKSARM.2025.25.3.175" class="paper-link" target="_blank">DOI</a></td>
-    </tr>
-    <tr>
-      <td>국가중요기록 보존 및 활용을 위한 중장기 기획연구: 전자기록물의 보존·복원 및 디지털 분야를 중심으로</td>
-      <td>한국기록관리학회지</td>
-      <td class="mono">2025</td>
-      <td><a href="https://doi.org/10.14404/JKSARM.2025.25.2.095" class="paper-link" target="_blank">DOI</a></td>
-    </tr>
-    <tr>
-      <td>기록관리시스템 변화에 따른 기록전문가 역할</td>
-      <td>제16회 전국기록인대회 (토론)</td>
-      <td class="mono">2024.11.02</td>
-      <td>–</td>
-    </tr>
-    <tr>
-      <td>빅데이터·인공지능 기술을 활용한 대학 기록관리 표준모델 연구</td>
-      <td>제13회 전국기록인대회</td>
-      <td class="mono">2021.11.27</td>
-      <td><a href="https://www.archives.go.kr/next/newdata/researchReportDetail.do?seq=98402&page=2&reportType=&year=&searchType=&keyword=" class="paper-link" target="_blank">링크</a></td>
-    </tr>
-    <tr>
-      <td>클라우드 저장소를 활용하여 기록생산시스템에서 기록관리시스템으로 전자기록물을 이관하는 방안에 관한 연구</td>
-      <td>한국기록관리학회지</td>
-      <td class="mono">2019</td>
-      <td><a href="https://doi.org/10.14404/JKSARM.2019.19.2.001" class="paper-link" target="_blank">DOI</a></td>
-    </tr>
-    <tr>
-      <td>클라우드 저장소를 활용한 전자기록물의 이관 방안 (석사학위논문)</td>
-      <td>충남대학교 대학원</td>
-      <td class="mono">2017</td>
-      <td><a href="https://www.riss.kr/link?id=T14532088" class="paper-link" target="_blank">RISS</a></td>
-    </tr>
-    <tr>
-      <td>오픈 아카이브로서 클라우드 플랫폼</td>
-      <td>한국외국어대학교 일반대학원 정보·기록학과 제73회 콜로키움 (토론)</td>
-      <td class="mono">2017.06.09</td>
-      <td>–</td>
-    </tr>
-    <tr>
-      <td>업무관리와 기록관리, 클라우드 컴퓨팅을 어떻게 적용할까?</td>
-      <td>제8회 전국기록인대회</td>
-      <td class="mono">2016.11.04</td>
-      <td>–</td>
-    </tr>
-  </tbody>
-</table>
-
-<table class="prof-table" data-lang="en">
-  <thead><tr><th>Title / Topic</th><th>Journal / Event</th><th>Year / Date</th><th>Link</th></tr></thead>
-  <tbody>
-    <tr>
-      <td>An Extended Paradata Schema for Accountability in AI-Based Records Management: Focusing on ISO 23081-2 and Human-in-the-Loop</td>
-      <td>Journal of Korean Society of Archives and Records Management</td>
-      <td class="mono">2026</td>
-      <td><a href="https://dx.doi.org/10.14404/JKSARM.2026.26.2.113" class="paper-link" target="_blank">DOI</a></td>
-    </tr>
-    <tr>
-      <td>An Analysis of Key Changes in ISO 14721:2025 and Their Implications for Application to Korean Records Management Systems</td>
-      <td>Journal of Korean Society of Archives and Records Management</td>
-      <td class="mono">2025</td>
-      <td><a href="https://doi.org/10.14404/JKSARM.2025.25.3.175" class="paper-link" target="_blank">DOI</a></td>
-    </tr>
-    <tr>
-      <td>A Study on the Mid- to Long-Term Planning for the Preservation and Utilization of Vital National Records: Focusing on the Preservation and Restoration of Electronic Records and the Digital Field</td>
-      <td>Journal of Korean Society of Archives and Records Management</td>
-      <td class="mono">2025</td>
-      <td><a href="https://doi.org/10.14404/JKSARM.2025.25.2.095" class="paper-link" target="_blank">DOI</a></td>
-    </tr>
-    <tr>
-      <td>The Role of Records Professionals in Response to Changes in Records Management Systems</td>
-      <td>16th National Archives Conference (Discussant)</td>
-      <td class="mono">2024.11.02</td>
-      <td>–</td>
-    </tr>
-    <tr>
-      <td>University Records Management Standard Model Using Big Data and AI Technologies</td>
-      <td>13th National Archives Conference</td>
-      <td class="mono">2021.11.27</td>
-      <td><a href="https://www.archives.go.kr/next/newdata/researchReportDetail.do?seq=98402&page=2&reportType=&year=&searchType=&keyword=" class="paper-link" target="_blank">Link</a></td>
-    </tr>
-    <tr>
-      <td>A Study on Transferring Electronic Records from Record Production System to Record Management System Using Cloud Storage</td>
-      <td>Journal of Korean Society of Archives and Records Management</td>
-      <td class="mono">2019</td>
-      <td><a href="https://doi.org/10.14404/JKSARM.2019.19.2.001" class="paper-link" target="_blank">DOI</a></td>
-    </tr>
-    <tr>
-      <td>A Study on the Transfer Method of Electronic Records Using Cloud Storage (Master's Thesis)</td>
-      <td>Chungnam National University</td>
-      <td class="mono">2017</td>
-      <td><a href="https://www.riss.kr/link?id=T14532088" class="paper-link" target="_blank">RISS</a></td>
-    </tr>
-    <tr>
-      <td>Cloud Platform as an Open Archive</td>
-      <td>73rd Colloquium, Dept. of Information &amp; Records Management, Hankuk Univ. of Foreign Studies (Discussant)</td>
-      <td class="mono">2017.06.09</td>
-      <td>–</td>
-    </tr>
-    <tr>
-      <td>How Can We Apply Cloud Computing to Work Management and Records Management?</td>
-      <td>8th National Archives Conference</td>
-      <td class="mono">2016.11.04</td>
-      <td>–</td>
-    </tr>
-  </tbody>
-</table>
-     </div>
-
-  <!-- FOOTER -->
-  <div class="page-footer">
-    <span class="updated-stamp" id="footerStamp">UPDATED · 2026.06.13</span>
-  </div>
-
 </div>
+
+<div class="adm-toast" id="admToast"></div>
 
 <script>
-  function setLang(lang) {
-    const body = document.body;
-    if (lang === 'en') {
-      body.classList.add('en');
-      document.documentElement.lang = 'en';
-    } else {
-      body.classList.remove('en');
-      document.documentElement.lang = 'ko';
+
+const ADM_PASS_DEFAULT = 'jari2024!';
+const STORE_PFX = 'jari3_';
+
+let PROFILE = null;
+let admMode = false;
+let admCurSecIdx = -1;
+let admEditCtx = null;
+let logFilter = 'all';
+let _dragSrc = null;
+let _transTimers = {};
+
+function ST(k, v) {
+  try {
+    if (v === undefined) {
+      const r = localStorage.getItem(STORE_PFX + k);
+      return r !== null ? JSON.parse(r) : null;
     }
-    document.getElementById('btnKr').classList.toggle('active', lang === 'kr');
-    document.getElementById('btnEn').classList.toggle('active', lang === 'en');
-  }
+    localStorage.setItem(STORE_PFX + k, JSON.stringify(v));
+  } catch(e) { return null; }
+}
+function getPass() { return ST('pass') || ADM_PASS_DEFAULT; }
 
-  const dateInput = document.getElementById('updateDate');
-  const footerStamp = document.getElementById('footerStamp');
-
-  function updateFooter() {
-    const v = dateInput.value;
-    if (v) {
-      const [y, m, d] = v.split('-');
-      footerStamp.textContent = `UPDATED · ${y}.${m}.${d}`;
-      localStorage.setItem('profileUpdateDate', v);
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const r = await fetch('data.json?v=' + Date.now());
+    if (!r.ok) throw new Error('load failed');
+    PROFILE = await r.json();
+  } catch(e) {
+    const draft = ST('draft');
+    if (draft) { PROFILE = draft; toast('⚠ data.json 로드 실패 — 로컬 임시본 표시 중'); }
+    else {
+      document.getElementById('mainContent').innerHTML =
+        '<p style="padding:60px;font-family:monospace;color:#8b1a1a;">⚠ data.json 을 불러올 수 없습니다.<br>index.html과 같은 폴더에 data.json 이 있는지 확인하세요.</p>';
+      return;
     }
   }
+  renderProfile();
+  bindKeys();
+});
 
-  const savedDate = localStorage.getItem('profileUpdateDate');
-  if (savedDate) {
-    dateInput.value = savedDate;
-  }
+// ── RENDER ──
+function renderProfile() {
+  renderHero();
+  renderSections();
+  renderFooter();
+}
 
-  dateInput.addEventListener('change', updateFooter);
-  updateFooter();
-  
-  function downloadPDF() {
-    const toolbar = document.getElementById('toolbar');
-    toolbar.style.display = 'none';
-    window.print();
-    toolbar.style.display = '';
+function renderHero() {
+  const m = PROFILE.meta;
+  document.getElementById('heroBlock').innerHTML = `
+    <img class="hero-photo" src="photo.png" alt="${m.name_kr}">
+    <div class="hero-info">
+      <div class="hero-name" data-lang="kr">${m.name_kr}
+        <span class="name-title">${m.title_kr}<span class="name-title-org"></span></span>
+        <span class="name-sub">${m.subtitle_kr}</span>
+      </div>
+      <div class="hero-name" data-lang="en" style="font-family:var(--serif-en);font-size:38px;font-weight:600;color:var(--navy);line-height:1.2;margin-bottom:4px;">${m.name_en}
+        <span class="name-title">${m.title_en}</span>
+        <span class="name-sub" style="font-family:var(--sans-kr);">${m.subtitle_en}</span>
+      </div>
+      <div style="height:12px"></div>
+      <div class="hero-meta">
+        <span class="meta-key" data-lang="kr">연락처</span><span class="meta-key" data-lang="en">Mobile</span>
+        <span class="meta-val">${m.mobile}</span>
+        <span class="meta-key">E-mail</span>
+        <span class="meta-val"><a href="mailto:${m.email}">${m.email}</a></span>
+        <span class="meta-key">Website</span>
+        <span class="meta-val"><a href="https://${m.website}" target="_blank">${m.website}</a></span>
+      </div>
+    </div>
+    <div class="hero-logo"><img src="logo.png" alt="J·ARI"></div>`;
+}
+
+function renderSections() {
+  document.getElementById('sectionsBlock').innerHTML = PROFILE.sections.map((sec, si) =>
+    `<div class="section" data-si="${si}">
+      <div class="section-header">
+        <span class="section-stamp">${sec.stamp}</span>
+        <span class="section-title" data-lang="kr">${sec.title_kr}</span>
+        <span class="section-title" data-lang="en">${sec.title_en}</span>
+      </div>
+      ${renderTable(sec.kr,'kr')}${renderTable(sec.en,'en')}
+    </div>`
+  ).join('');
+}
+
+function renderTable(t, lang) {
+  if (!t || !t.headers.length) return '';
+  return `<table class="prof-table" data-lang="${lang}">
+    <thead><tr>${t.headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead>
+    <tbody>${t.rows.map(row =>
+      `<tr>${row.map((cell,ci) => {
+        const isMono = isMonoCell(cell, t, ci);
+        return `<td class="${isMono?'mono':''}">${cell}</td>`;
+      }).join('')}</tr>`
+    ).join('')}</tbody>
+  </table>`;
+}
+
+function isMonoCell(cell, t, ci) {
+  // date / year / period patterns
+  const s = String(cell).trim();
+  return /^\d{4}[.\-\/]/.test(s) || /^\d{4}$/.test(s) || (s.includes('–') && /\d{4}/.test(s));
+}
+
+function renderFooter() {
+  const d = PROFILE.meta.updated || '–';
+  document.getElementById('footerStamp').textContent = 'UPDATED · ' + d;
+  const inp = document.getElementById('updateDate');
+  if (inp && d !== '–') inp.value = d.replace(/\./g,'-');
+}
+
+// ── LANGUAGE ──
+function setLang(lang) {
+  document.body.classList.toggle('en', lang==='en');
+  document.documentElement.lang = lang==='en' ? 'en' : 'ko';
+  document.getElementById('btnKr').classList.toggle('active', lang==='kr');
+  document.getElementById('btnEn').classList.toggle('active', lang==='en');
+}
+
+// ── DATE ──
+document.getElementById('updateDate').addEventListener('change', function() {
+  if (!admMode) return;
+  PROFILE.meta.updated = this.value.replace(/-/g,'.');
+  document.getElementById('footerStamp').textContent = 'UPDATED · ' + PROFILE.meta.updated;
+  ST('draft', PROFILE);
+});
+function setTodayDate() {
+  const n=new Date(), pad=x=>String(x).padStart(2,'0');
+  PROFILE.meta.updated = `${n.getFullYear()}.${pad(n.getMonth()+1)}.${pad(n.getDate())}`;
+  document.getElementById('footerStamp').textContent = 'UPDATED · ' + PROFILE.meta.updated;
+  document.getElementById('updateDate').value = PROFILE.meta.updated.replace(/\./g,'-');
+  ST('draft', PROFILE);
+}
+
+// ── PDF ──
+function downloadPDF() {
+  document.getElementById('toolbar').style.display='none';
+  document.getElementById('admBar').style.display='none';
+  window.print();
+  document.getElementById('toolbar').style.display='';
+  if (admMode) document.getElementById('admBar').style.display='';
+}
+
+// ── LOGIN ──
+function admShowLogin() { document.getElementById('admLogin').classList.add('on'); setTimeout(()=>document.getElementById('admPw').focus(),50); }
+function admHideLogin() { document.getElementById('admLogin').classList.remove('on'); document.getElementById('admErr').style.display='none'; }
+function admDoLogin() {
+  if (document.getElementById('admPw').value === getPass()) {
+    admMode=true; admHideLogin();
+    document.body.classList.add('adm-active');
+    document.getElementById('admBar').classList.add('on');
+    document.getElementById('admLoginBtn').style.display='none';
+    toast('관리자 모드 활성화');
+  } else {
+    document.getElementById('admErr').style.display='block';
+    document.getElementById('admPw').value='';
+    document.getElementById('admPw').focus();
   }
+}
+function admLogout() {
+  admMode=false; admClosePanel(); admCloseLog();
+  document.body.classList.remove('adm-active');
+  document.getElementById('admBar').classList.remove('on');
+  document.getElementById('admLoginBtn').style.display='';
+  toast('로그아웃 되었습니다');
+}
+
+// ── PANEL ──
+function admOpenPanel() { renderSecList(); document.getElementById('admPanel').classList.add('on'); }
+function admClosePanel() { document.getElementById('admPanel').classList.remove('on'); admCloseDialog(); }
+
+function renderSecList() {
+  document.getElementById('admSecList').innerHTML = PROFILE.sections.map((s,i)=>
+    `<div class="adm-sec-item${admCurSecIdx===i?' active':''}" onclick="admSelectSec(${i})">
+       <span class="sec-stamp">${s.stamp}</span>
+       <span class="sec-name">${s.title_kr}</span>
+     </div>`
+  ).join('');
+}
+function admSelectSec(idx) {
+  admCurSecIdx=idx;
+  document.querySelectorAll('.adm-sec-item').forEach((el,i)=>el.classList.toggle('active',i===idx));
+  renderEditor();
+}
+
+// ── EDITOR ──
+function renderEditor(skipSort) {
+  const sec = PROFILE.sections[admCurSecIdx];
+  if (!sec) return;
+  const headers = sec.kr.headers;
+  const dateCol = detectDateCol(headers, sec.kr.rows);
+  if (!skipSort && dateCol>=0 && sec.kr.rows.length>1) {
+    sec.kr.rows = sortDesc(sec.kr.rows, dateCol);
+    sec.en.rows = sortDesc(sec.en.rows, dateCol);
+    ST('draft', PROFILE);
+  }
+  const sortOpts = headers.map((h,i)=>`<option value="${i}"${i===dateCol?' selected':''}>${h}</option>`).join('');
+  document.getElementById('admEditor').innerHTML = `
+    <div class="adm-editor-title">
+      <span style="background:var(--ink);color:#fff;padding:2px 8px;font-size:9px;border-radius:1px;">${sec.stamp}</span>
+      ${sec.title_kr}
+      <button class="adm-add-btn" onclick="admOpenAdd()">+ 항목 추가</button>
+    </div>
+    <div class="adm-sort-bar">
+      <label>정렬 기준:</label>
+      <select class="adm-sort-sel" id="admSortCol">${sortOpts}</select>
+      <button class="adm-sort-btn" onclick="admApplySort()">최신순 적용</button>
+      <span class="adm-sort-hint">⠿ 드래그 또는 ▲▼ 으로 순서 조정</span>
+    </div>
+    <table class="adm-table">
+      <thead><tr><th style="width:24px"></th>${headers.map(h=>`<th>${h}</th>`).join('')}<th style="width:120px">관리</th></tr></thead>
+      <tbody id="admEditorTbody">
+        ${sec.kr.rows.map((row,ri)=>`
+          <tr data-ri="${ri}" draggable="true">
+            <td class="adm-handle">⠿</td>
+            ${row.map(c=>`<td>${c}</td>`).join('')}
+            <td class="adm-actions">
+              <button class="adm-row-btn mv" onclick="admMoveRow(this,-1)">▲</button>
+              <button class="adm-row-btn mv" onclick="admMoveRow(this,1)">▼</button>
+              <button class="adm-row-btn edit" onclick="admOpenEdit(this)">수정</button>
+              <button class="adm-row-btn del" onclick="admDelRow(this)">삭제</button>
+            </td>
+          </tr>`).join('')}
+      </tbody>
+    </table>
+    <div class="adm-order-bar" id="admOrderBar">
+      ⚠ 순서가 변경되었습니다.
+      <button class="adm-save-order-btn" onclick="admSaveOrder()">이 순서로 저장</button>
+    </div>`;
+  initDragDrop();
+}
+
+function detectDateCol(headers, rows) {
+  const kw=['기간','연도','일자','date','year','period','obtained','filed','취득'];
+  for (let i=headers.length-1;i>=0;i--) if(kw.some(k=>headers[i].toLowerCase().includes(k))) return i;
+  if (!rows.length) return -1;
+  for (let i=rows[0].length-1;i>=0;i--) if(/\d{4}[.\/-]/.test(rows[0][i]||'')||/^\d{4}$/.test((rows[0][i]||'').trim())) return i;
+  return -1;
+}
+function sortDesc(rows, col) {
+  return [...rows].sort((a,b)=>{
+    const ya=+((a[col]||'').match(/\d{4}/)||[0])[0];
+    const yb=+((b[col]||'').match(/\d{4}/)||[0])[0];
+    return yb-ya;
+  });
+}
+function admApplySort() {
+  const col=+document.getElementById('admSortCol').value;
+  const sec=PROFILE.sections[admCurSecIdx];
+  sec.kr.rows=sortDesc(sec.kr.rows,col);
+  sec.en.rows=sortDesc(sec.en.rows,col);
+  ST('draft',PROFILE); renderEditor(true); markOrderDirty();
+}
+
+// ── ORDER ──
+function admMoveRow(btn,dir) {
+  const sec=PROFILE.sections[admCurSecIdx];
+  const trs=Array.from(document.getElementById('admEditorTbody').querySelectorAll('tr'));
+  const idx=trs.indexOf(btn.closest('tr')), tgt=idx+dir;
+  if(tgt<0||tgt>=trs.length) return;
+  [sec.kr.rows[idx],sec.kr.rows[tgt]]=[sec.kr.rows[tgt],sec.kr.rows[idx]];
+  [sec.en.rows[idx],sec.en.rows[tgt]]=[sec.en.rows[tgt],sec.en.rows[idx]];
+  ST('draft',PROFILE); renderEditor(true); markOrderDirty();
+}
+function markOrderDirty() { document.getElementById('admOrderBar')?.classList.add('on'); }
+function admSaveOrder() {
+  renderSections(); ST('draft',PROFILE); setTodayDate();
+  writeLog('order',PROFILE.sections[admCurSecIdx].title_kr,'행 순서 변경');
+  toast('순서가 저장되었습니다'); renderEditor(true);
+}
+
+// ── DRAG & DROP ──
+function initDragDrop() {
+  const tbody=document.getElementById('admEditorTbody');
+  if(!tbody) return;
+  tbody.addEventListener('dragstart',e=>{
+    const tr=e.target.closest('tr'); if(!tr) return;
+    _dragSrc=Array.from(tbody.querySelectorAll('tr')).indexOf(tr);
+    setTimeout(()=>tr.classList.add('dragging'),0);
+    e.dataTransfer.effectAllowed='move';
+  });
+  tbody.addEventListener('dragend',e=>{
+    e.target.closest('tr')?.classList.remove('dragging');
+    tbody.querySelectorAll('tr').forEach(r=>r.classList.remove('drag-over'));
+    _dragSrc=null;
+  });
+  tbody.addEventListener('dragover',e=>{
+    e.preventDefault(); e.dataTransfer.dropEffect='move';
+    const tr=e.target.closest('tr'); if(!tr) return;
+    tbody.querySelectorAll('tr').forEach(r=>r.classList.remove('drag-over'));
+    tr.classList.add('drag-over');
+  });
+  tbody.addEventListener('dragleave',e=>e.target.closest('tr')?.classList.remove('drag-over'));
+  tbody.addEventListener('drop',e=>{
+    e.preventDefault();
+    tbody.querySelectorAll('tr').forEach(r=>r.classList.remove('drag-over'));
+    const tr=e.target.closest('tr'); if(!tr||_dragSrc===null) return;
+    const tgt=Array.from(tbody.querySelectorAll('tr')).indexOf(tr);
+    if(tgt===_dragSrc) return;
+    const sec=PROFILE.sections[admCurSecIdx];
+    const [kr]=sec.kr.rows.splice(_dragSrc,1);
+    const [en]=sec.en.rows.splice(_dragSrc,1);
+    sec.kr.rows.splice(tgt,0,kr);
+    sec.en.rows.splice(tgt,0,en);
+    ST('draft',PROFILE); renderEditor(true); markOrderDirty();
+  });
+}
+
+// ── DIALOG ──
+function admOpenAdd() {
+  admEditCtx={isNew:true,idx:-1};
+  const sec=PROFILE.sections[admCurSecIdx];
+  openDialog('항목 추가',sec.kr.headers,sec.en.headers,sec.kr.headers.map(()=>''),sec.en.headers.map(()=>''));
+}
+function admOpenEdit(btn) {
+  const trs=Array.from(document.getElementById('admEditorTbody').querySelectorAll('tr'));
+  const idx=trs.indexOf(btn.closest('tr'));
+  admEditCtx={isNew:false,idx};
+  const sec=PROFILE.sections[admCurSecIdx];
+  openDialog('항목 수정',sec.kr.headers,sec.en.headers,[...(sec.kr.rows[idx]||[])],[...(sec.en.rows[idx]||[])]);
+}
+function openDialog(title,krH,enH,krV,enV) {
+  document.getElementById('admDialogTitle').textContent=title;
+  document.getElementById('admDialogForm').innerHTML=
+    '<div class="adm-dialog-fields">'+
+    krH.map((h,i)=>`
+      <div class="adm-dialog-row">
+        <div class="adm-dfield">
+          <div class="adm-dlabel">${h} <span class="lang-badge kr">KR</span>
+            <button class="adm-translate-btn" data-idx="${i}" onclick="admTranslateField(${i})">▶ 영문 번역</button>
+          </div>
+          <input class="adm-dinput" data-kr="${i}" value="${escHtml(krV[i]||'')}" oninput="admAutoTranslate(${i},this)">
+        </div>
+        <div class="adm-dfield">
+          <div class="adm-dlabel">${enH[i]||h} <span class="lang-badge en">EN</span></div>
+          <input class="adm-dinput" data-en="${i}" id="enInput_${i}" value="${escHtml(enV[i]||'')}">
+        </div>
+      </div>`).join('')+
+    '</div>';
+  document.getElementById('admDialog').classList.add('on');
+  document.querySelector('#admDialogForm .adm-dinput')?.focus();
+}
+function admCloseDialog() { document.getElementById('admDialog').classList.remove('on'); admEditCtx=null; }
+
+function admSaveRow() {
+  if(!admEditCtx) return;
+  const {isNew,idx}=admEditCtx;
+  const sec=PROFILE.sections[admCurSecIdx];
+  const krVals=Array.from(document.querySelectorAll('#admDialogForm [data-kr]'))
+    .sort((a,b)=>+a.dataset.kr-+b.dataset.kr).map(i=>i.value.trim());
+  const enVals=Array.from(document.querySelectorAll('#admDialogForm [data-en]'))
+    .sort((a,b)=>+a.dataset.en-+b.dataset.en).map(i=>i.value.trim());
+  if(isNew){
+    sec.kr.rows.push(krVals); sec.en.rows.push(enVals);
+    writeLog('add',sec.title_kr,krVals[0]||'새 항목');
+    toast('항목이 추가되었습니다');
+    admCloseDialog(); ST('draft',PROFILE); setTodayDate(); renderSections(); renderEditor(false);
+  } else {
+    sec.kr.rows[idx]=krVals; sec.en.rows[idx]=enVals;
+    writeLog('edit',sec.title_kr,krVals[0]||'항목');
+    toast('항목이 수정되었습니다');
+    admCloseDialog(); ST('draft',PROFILE); setTodayDate(); renderSections(); renderEditor(true);
+  }
+}
+
+function admDelRow(btn) {
+  if(!confirm('이 항목을 삭제하시겠습니까?')) return;
+  const trs=Array.from(document.getElementById('admEditorTbody').querySelectorAll('tr'));
+  const idx=trs.indexOf(btn.closest('tr'));
+  const sec=PROFILE.sections[admCurSecIdx];
+  const label=sec.kr.rows[idx]?.[0]||'항목';
+  sec.kr.rows.splice(idx,1); sec.en.rows.splice(idx,1);
+  writeLog('del',sec.title_kr,label);
+  ST('draft',PROFILE); setTodayDate(); renderSections(); renderEditor(true);
+  toast('항목이 삭제되었습니다');
+}
+
+// ── SAVE JSON ──
+function admSaveJson() {
+  if(!PROFILE) return;
+  const blob=new Blob([JSON.stringify(PROFILE,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download='data.json'; a.click();
+  URL.revokeObjectURL(a.href);
+  writeLog('edit','SYSTEM','data.json 저장');
+  toast('data.json 다운로드 완료 → GitHub에 업로드하세요');
+}
+
+// ── TRANSLATION ──
+const ARCH_DICT=[
+  ['기록물평가심의회','Records Appraisal Review Committee'],
+  ['정보공개심의회','Information Disclosure Review Committee'],
+  ['기록물관리 전문요원','Records Management Professional'],
+  ['기록관리전문가','Archivist'],['전자기록','Electronic Records'],
+  ['기록관리시스템','Records Management System'],['기록경영시스템','Records Management System'],
+  ['심의위원','Review Member'],['자문위원','Advisory Member'],
+  ['평가위원','Evaluator'],['전문위원','Expert Member'],
+  ['겸임교수','Adjunct Professor'],['시간강사','Part-time Instructor'],
+  ['특강','Guest Lecture'],['강사','Lecturer'],
+  ['국가기록원','National Archives of Korea'],
+  ['행정안전부','Ministry of the Interior and Safety'],['교육부','Ministry of Education'],
+  ['현재','Present'],['박사과정 수료','PhD Program Completion'],
+  ['석사','Master'],['정회원','Regular Member'],['이사','Director'],
+  ['컨설팅','Consulting'],['선임심사원','Lead Auditor'],
+  ['출원','Filed'],['특허','Patent'],
+  ['한국기록관리학회지','Journal of Korean Society of Archives and Records Management'],
+];
+function admAutoTranslate(idx,el){clearTimeout(_transTimers[idx]);_transTimers[idx]=setTimeout(()=>admTranslateField(idx),900);}
+async function admTranslateField(idx){
+  const ki=document.querySelector(`[data-kr="${idx}"]`);
+  const ei=document.getElementById(`enInput_${idx}`);
+  if(!ki||!ei) return;
+  const text=ki.value.trim(); if(!text) return;
+  const btn=document.querySelector(`[data-idx="${idx}"]`);
+  const orig=btn?.innerHTML||'';
+  if(btn){btn.innerHTML='번역 중<span class="adm-translate-spinner"></span>';btn.disabled=true;}
+  ei.classList.add('translating');
+  try{
+    const res=await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=ko&tl=en&dt=t&q=${encodeURIComponent(text)}`);
+    if(!res.ok) throw new Error();
+    const d=await res.json();
+    let out=d[0].map(c=>c[0]).join('');
+    ARCH_DICT.forEach(([k,v])=>{out=out.replace(new RegExp(v,'gi'),v);});
+    ei.value=out; setTimeout(()=>ei.classList.remove('translating'),700);
+  }catch(e){ei.classList.remove('translating');toast('번역 연결 실패 — 직접 입력해 주세요');}
+  finally{if(btn){btn.innerHTML=orig;btn.disabled=false;}}
+}
+
+// ── LOG ──
+function writeLog(action,section,label){
+  const logs=ST('logs')||[];
+  const n=new Date(),pad=x=>String(x).padStart(2,'0');
+  const ts=`${n.getFullYear()}.${pad(n.getMonth()+1)}.${pad(n.getDate())} ${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())}`;
+  logs.unshift({ts,action,section,label});
+  ST('logs',logs.slice(0,500));
+}
+function admOpenLog(){renderLog(logFilter);document.getElementById('admLogPanel').classList.add('on');}
+function admCloseLog(){document.getElementById('admLogPanel').classList.remove('on');}
+function renderLog(filter){
+  const logs=(ST('logs')||[]).filter(l=>filter==='all'||l.action===filter);
+  const labels={add:'추가',edit:'수정',del:'삭제',order:'순서'};
+  document.getElementById('admLogList').innerHTML=logs.length
+    ?logs.map(l=>`<div class="adm-log-entry">
+        <span class="adm-log-time">${l.ts}</span>
+        <span class="adm-log-action ${l.action}">${labels[l.action]||l.action}</span>
+        <span class="adm-log-desc"><b>${l.section}</b> — ${l.label}</span>
+      </div>`).join('')
+    :'<div class="adm-log-empty">변경 로그가 없습니다.</div>';
+}
+function admFilterLog(f,btn){
+  logFilter=f;
+  document.querySelectorAll('.adm-log-filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); renderLog(f);
+}
+function admClearLog(){if(!confirm('로그를 모두 삭제할까요?')) return; ST('logs',[]); renderLog(logFilter); toast('로그가 초기화되었습니다');}
+
+// ── PASSWORD ──
+function admOpenPwChange(){document.getElementById('admPwModal').classList.add('on');setTimeout(()=>document.getElementById('pwCurrent').focus(),50);}
+function admClosePwChange(){document.getElementById('admPwModal').classList.remove('on');}
+function admSavePw(){
+  const cur=document.getElementById('pwCurrent').value;
+  const nw=document.getElementById('pwNew').value;
+  const cf=document.getElementById('pwConfirm').value;
+  const err=document.getElementById('pwErr');
+  err.style.display='none';
+  if(cur!==getPass()){err.textContent='⚠ 현재 비밀번호가 틀렸습니다.';err.style.display='block';document.getElementById('pwCurrent').value='';return;}
+  if(nw.length<4){err.textContent='⚠ 4자 이상 입력하세요.';err.style.display='block';return;}
+  if(nw!==cf){err.textContent='⚠ 비밀번호가 일치하지 않습니다.';err.style.display='block';document.getElementById('pwConfirm').value='';return;}
+  ST('pass',nw); admClosePwChange(); toast('비밀번호가 변경되었습니다');
+}
+
+// ── UTILS ──
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+let _toastT;
+function toast(msg){
+  const el=document.getElementById('admToast');el.textContent=msg;el.classList.add('on');
+  clearTimeout(_toastT);_toastT=setTimeout(()=>el.classList.remove('on'),2600);
+}
+function bindKeys(){
+  document.addEventListener('keydown',e=>{
+    if(e.key!=='Escape') return;
+    if(document.getElementById('admDialog').classList.contains('on')) admCloseDialog();
+    else if(document.getElementById('admPanel').classList.contains('on')) admClosePanel();
+    else if(document.getElementById('admLogPanel').classList.contains('on')) admCloseLog();
+    else if(document.getElementById('admLogin').classList.contains('on')) admHideLogin();
+    else if(document.getElementById('admPwModal').classList.contains('on')) admClosePwChange();
+  });
+  document.getElementById('admPw').addEventListener('keydown',e=>{if(e.key==='Enter') admDoLogin();});
+  document.getElementById('admLogin').addEventListener('click',e=>{if(e.target===document.getElementById('admLogin')) admHideLogin();});
+  document.getElementById('admPwModal').addEventListener('click',e=>{if(e.target===document.getElementById('admPwModal')) admClosePwChange();});
+}
+
 </script>
-
 </body>
 </html>
