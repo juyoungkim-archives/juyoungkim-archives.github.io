@@ -728,6 +728,7 @@
   </div>
   <div class="adm-bar-right">
     <button class="adm-bar-btn outline" onclick="admOpenPwChange()">🔑 비밀번호 변경</button>
+    <button class="adm-bar-btn danger" onclick="admClearDraft()" title="로컬 임시저장 데이터를 삭제하고 data.json으로 새로고침">🗑 캐시 초기화</button>
     <button class="adm-bar-btn danger" onclick="admLogout()">로그아웃</button>
   </div>
 </div>
@@ -831,13 +832,29 @@ function getPass() { return ST('pass') || ADM_PASS_DEFAULT; }
 // ── INIT ──
 document.addEventListener('DOMContentLoaded', async () => {
   // 1순위: localStorage 임시저장본 (관리자가 편집 중인 내용)
+  // draft 유효성 검사: sections 데이터가 없으면 무효 draft로 판단
   const draft = ST('draft');
-  if (draft) {
-    PROFILE = draft;
-    renderProfile();
-    initEnHover();
-    bindKeys();
-    return;
+  const draftValid = draft &&
+    draft.sections &&
+    draft.sections.length > 0 &&
+    draft.sections[0].kr &&
+    draft.sections[0].kr.rows &&
+    draft.sections[0].kr.rows.length > 0;
+
+  if (draftValid) {
+    // draft 버전이 INLINE_DATA보다 오래된 경우 병합
+    // sections 수가 다르면 INLINE_DATA 기준으로 초기화
+    if (draft.sections.length !== INLINE_DATA.sections.length) {
+      ST('draft', null); // 무효 draft 삭제
+    } else {
+      PROFILE = draft;
+      renderProfile();
+      initEnHover();
+      bindKeys();
+      return;
+    }
+  } else if (draft && !draftValid) {
+    ST('draft', null); // 비어있거나 손상된 draft 삭제
   }
   // 2순위: fetch data.json (GitHub Pages / 웹서버 환경)
   try {
@@ -996,6 +1013,12 @@ function admLogout() {
   document.getElementById('admBar').classList.remove('on');
   document.getElementById('admLoginBtn').style.display='';
   toast('로그아웃 되었습니다');
+}
+
+function admClearDraft() {
+  if (!confirm('로컬 임시저장 데이터를 삭제하고 data.json 원본으로 새로고침할까요?\n(편집 중인 미저장 내용은 사라집니다)')) return;
+  ST('draft', null);
+  location.reload();
 }
 
 // ── PANEL ──
