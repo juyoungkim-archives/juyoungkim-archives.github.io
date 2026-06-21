@@ -346,6 +346,26 @@
 
   .prof-table tbody tr:hover { background: var(--parchment); }
 
+  /* ── KR→EN hover preview ── */
+  /* KR 모드에서 행 hover 시 EN 값 표시 */
+  body:not(.en) .prof-table[data-lang="kr"] tbody tr {
+    transition: background .1s;
+  }
+  body:not(.en) .prof-table[data-lang="kr"] tbody tr.en-peek td {
+    color: var(--navy) !important;
+    font-style: italic;
+    font-family: var(--sans-kr);
+    font-size: 12px;
+    background: #eef2fc;
+    border-bottom-color: #c5d3f5;
+  }
+  body:not(.en) .prof-table[data-lang="kr"] tbody tr.en-peek td.mono {
+    font-family: var(--mono) !important;
+    font-size: 11px;
+  }
+  /* EN table always hidden in KR mode */
+  body:not(.en) .prof-table[data-lang="en"] { display: none; }
+
   .prof-table tbody td {
     padding: 10px 12px;
     font-size: 13px;
@@ -769,6 +789,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     PROFILE = JSON.parse(JSON.stringify(INLINE_DATA));
   }
   renderProfile();
+  initEnHover();
   bindKeys();
 });
 
@@ -813,21 +834,31 @@ function renderSections() {
         <span class="section-title" data-lang="kr">${sec.title_kr}</span>
         <span class="section-title" data-lang="en">${sec.title_en}</span>
       </div>
-      ${renderTable(sec.kr,'kr')}${renderTable(sec.en,'en')}
+      <div class="bilingual-wrap">
+        ${renderTable(sec.kr,'kr',sec.en)}
+        ${renderTable(sec.en,'en')}
+      </div>
     </div>`
   ).join('');
 }
 
-function renderTable(t, lang) {
+function renderTable(t, lang, enData) {
   if (!t || !t.headers.length) return '';
+  const rows = t.rows.map((row, ri) => {
+    // For KR table: embed EN row values as data-en-{ci} on each td
+    // so CSS hover can swap text via JS without layout shift
+    const enRow = (lang === 'kr' && enData && enData.rows[ri]) ? enData.rows[ri] : null;
+    const cells = row.map((cell, ci) => {
+      const isMono = isMonoCell(cell, t, ci);
+      const enVal  = enRow ? escHtml(enRow[ci] || '') : '';
+      const enAttr = enRow ? ` data-en="${enVal}"` : '';
+      return `<td class="${isMono?'mono':''}"${enAttr}>${cell}</td>`;
+    }).join('');
+    return `<tr>${cells}</tr>`;
+  }).join('');
   return `<table class="prof-table" data-lang="${lang}">
     <thead><tr>${t.headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead>
-    <tbody>${t.rows.map(row =>
-      `<tr>${row.map((cell,ci) => {
-        const isMono = isMonoCell(cell, t, ci);
-        return `<td class="${isMono?'mono':''}">${cell}</td>`;
-      }).join('')}</tr>`
-    ).join('')}</tbody>
+    <tbody>${rows}</tbody>
   </table>`;
 }
 
@@ -999,7 +1030,7 @@ function admMoveRow(btn,dir) {
 }
 function markOrderDirty() { document.getElementById('admOrderBar')?.classList.add('on'); }
 function admSaveOrder() {
-  renderSections(); ST('draft',PROFILE); setTodayDate();
+  renderSections(); initEnHover(); ST('draft',PROFILE); setTodayDate();
   writeLog('order',PROFILE.sections[admCurSecIdx].title_kr,'행 순서 변경');
   toast('순서가 저장되었습니다'); renderEditor(true);
 }
@@ -1089,12 +1120,12 @@ function admSaveRow() {
     sec.kr.rows.push(krVals); sec.en.rows.push(enVals);
     writeLog('add',sec.title_kr,krVals[0]||'새 항목');
     toast('항목이 추가되었습니다');
-    admCloseDialog(); ST('draft',PROFILE); setTodayDate(); renderSections(); renderEditor(false);
+    admCloseDialog(); ST('draft',PROFILE); setTodayDate(); renderSections(); initEnHover(); renderEditor(false);
   } else {
     sec.kr.rows[idx]=krVals; sec.en.rows[idx]=enVals;
     writeLog('edit',sec.title_kr,krVals[0]||'항목');
     toast('항목이 수정되었습니다');
-    admCloseDialog(); ST('draft',PROFILE); setTodayDate(); renderSections(); renderEditor(true);
+    admCloseDialog(); ST('draft',PROFILE); setTodayDate(); renderSections(); initEnHover(); renderEditor(true);
   }
 }
 
@@ -1106,7 +1137,7 @@ function admDelRow(btn) {
   const label=sec.kr.rows[idx]?.[0]||'항목';
   sec.kr.rows.splice(idx,1); sec.en.rows.splice(idx,1);
   writeLog('del',sec.title_kr,label);
-  ST('draft',PROFILE); setTodayDate(); renderSections(); renderEditor(true);
+  ST('draft',PROFILE); setTodayDate(); renderSections(); initEnHover(); renderEditor(true);
   toast('항목이 삭제되었습니다');
 }
 
@@ -1216,6 +1247,35 @@ function toast(msg){
   const el=document.getElementById('admToast');el.textContent=msg;el.classList.add('on');
   clearTimeout(_toastT);_toastT=setTimeout(()=>el.classList.remove('on'),2600);
 }
+// ── KR 행 hover → EN 텍스트 미리보기 ──
+function initEnHover() {
+  document.querySelectorAll('.prof-table[data-lang="kr"] tbody tr').forEach(tr => {
+    // 이미 바인딩된 경우 중복 방지
+    if (tr.dataset.hoverBound) return;
+    tr.dataset.hoverBound = '1';
+    tr.addEventListener('mouseenter', () => {
+      if (document.body.classList.contains('en')) return;
+      tr.querySelectorAll('td').forEach(td => {
+        const enVal = td.getAttribute('data-en');
+        if (enVal !== null && enVal !== '') {
+          td._krHtml = td.innerHTML;
+          td.textContent = enVal;
+        }
+      });
+      tr.classList.add('en-peek');
+    });
+    tr.addEventListener('mouseleave', () => {
+      tr.querySelectorAll('td').forEach(td => {
+        if (td._krHtml !== undefined) {
+          td.innerHTML = td._krHtml;
+          delete td._krHtml;
+        }
+      });
+      tr.classList.remove('en-peek');
+    });
+  });
+}
+
 function bindKeys(){
   document.addEventListener('keydown',e=>{
     if(e.key!=='Escape') return;
