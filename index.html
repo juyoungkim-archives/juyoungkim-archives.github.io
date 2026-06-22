@@ -570,20 +570,37 @@
   .adm-panel-head-title{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--gold);}
   .adm-panel-close{background:transparent;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.6);font-family:var(--mono);font-size:11px;padding:5px 14px;cursor:pointer;border-radius:2px;transition:all .2s;}
   .adm-panel-close:hover{border-color:var(--stamp);color:var(--stamp);}
-  .adm-panel-body{display:flex;flex:1;overflow:hidden;}
+  .adm-panel-body{display:flex;flex-direction:column;flex:1;overflow:hidden;}
   .adm-save-json-btn{font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:6px 16px;background:var(--stamp);color:#fff;border:none;cursor:pointer;border-radius:2px;transition:background .2s;}
   .adm-save-json-btn:hover{background:var(--stamp-light);}
-  .adm-section-list{width:210px;flex-shrink:0;border-right:1px solid var(--rule);overflow-y:auto;padding:12px 0;background:#f0ebe0;}
-  .adm-sec-item{padding:11px 18px;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.04em;border-left:3px solid transparent;transition:all .15s;display:flex;flex-direction:column;gap:2px;}
-  .adm-sec-item .sec-stamp{font-size:9px;color:var(--stamp);letter-spacing:.12em;}
-  .adm-sec-item .sec-name{color:var(--ink);font-size:12px;}
-  .adm-sec-item:hover{background:var(--parchment);}
-  .adm-sec-item.active{border-left-color:var(--gold);background:var(--cream);}
-  .adm-sec-item.active .sec-name{font-weight:700;color:var(--navy);}
-  .adm-editor{flex:1;overflow-y:auto;padding:24px 28px;}
-  .adm-editor-placeholder{height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.08em;flex-direction:column;gap:10px;}
-  .adm-editor-title{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--stamp);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:12px;}
-  .adm-add-btn{margin-left:auto;padding:6px 14px;background:var(--navy);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.08em;border:none;cursor:pointer;border-radius:2px;transition:background .2s;}
+
+  /* 섹션 탭 네비게이션 */
+  .adm-sec-tabs{
+    display:flex;align-items:center;gap:4px;flex-wrap:wrap;
+    padding:8px 20px;background:#f0ebe0;
+    border-bottom:1px solid var(--rule);flex-shrink:0;
+  }
+  .adm-sec-tab{
+    font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+    padding:4px 10px;cursor:pointer;border-radius:2px;
+    border:1px solid transparent;color:var(--muted);
+    background:transparent;transition:all .15s;white-space:nowrap;
+  }
+  .adm-sec-tab:hover{background:var(--parchment);border-color:var(--rule);}
+  .adm-sec-tab.has-hidden{color:#b08020;}
+
+  /* 전체 스크롤 에디터 */
+  .adm-editor{flex:1;overflow-y:auto;padding:0;}
+  .adm-sec-block{
+    border-bottom:2px solid var(--rule);padding:20px 28px 28px;
+  }
+  .adm-sec-block:last-child{border-bottom:none;}
+  .adm-editor-title{
+    font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    color:var(--stamp);text-transform:uppercase;
+    margin-bottom:12px;display:flex;align-items:center;gap:10px;
+  }
+  .adm-add-btn{margin-left:auto;padding:5px 12px;background:var(--navy);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.08em;border:none;cursor:pointer;border-radius:2px;transition:background .2s;}
   .adm-add-btn:hover{background:var(--stamp);}
   .adm-sort-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;padding:7px 12px;background:var(--parchment);border:1px solid var(--rule);border-radius:2px;font-family:var(--mono);font-size:10px;color:var(--muted);}
   .adm-sort-sel{font-family:var(--mono);font-size:11px;padding:3px 8px;border:1px solid var(--rule);background:#fff;color:var(--ink);border-radius:2px;}
@@ -608,6 +625,24 @@
   .adm-row-btn.del:hover{background:var(--stamp);color:#fff;}
   .adm-row-btn.mv{border-color:var(--rule);color:var(--muted);padding:3px 6px;}
   .adm-row-btn.mv:hover{background:var(--parchment);border-color:var(--muted);}
+  .adm-row-btn.hide{border-color:#b08020;color:#b08020;}
+  .adm-row-btn.hide:hover{background:#b08020;color:#fff;}
+  .adm-row-btn.show{border-color:#2d6a4f;color:#2d6a4f;}
+  .adm-row-btn.show:hover{background:#2d6a4f;color:#fff;}
+
+  /* 에디터 테이블에서 숨긴 행 표시 */
+  .adm-table tbody tr.row-hidden {
+    background: repeating-linear-gradient(
+      135deg, #f9f6ef, #f9f6ef 4px, #f0ebe0 4px, #f0ebe0 8px
+    );
+    opacity: .6;
+  }
+  .adm-table tbody tr.row-hidden td { color: var(--muted) !important; text-decoration: line-through; }
+  .adm-table tbody tr.row-hidden td.adm-handle,
+  .adm-table tbody tr.row-hidden td.adm-actions { text-decoration: none; }
+
+  /* 프로필 테이블에서 숨긴 행 */
+  .prof-table tbody tr.row-hidden { display: none; }
   .adm-order-bar{margin-top:12px;padding:10px 14px;background:#fffbe6;border:1px solid var(--gold);border-radius:2px;display:none;align-items:center;gap:12px;font-family:var(--mono);font-size:11px;color:#7a6010;}
   .adm-order-bar.on{display:flex;}
   .adm-save-order-btn{margin-left:auto;padding:6px 18px;background:var(--gold);color:var(--navy);font-weight:700;font-family:var(--mono);font-size:11px;border:none;border-radius:2px;cursor:pointer;}
@@ -744,13 +779,8 @@
     <button class="adm-panel-close" onclick="admClosePanel()">✕ 닫기</button>
   </div>
   <div class="adm-panel-body">
-    <div class="adm-section-list" id="admSecList"></div>
-    <div class="adm-editor" id="admEditor">
-      <div class="adm-editor-placeholder">
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.3"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-        <span>왼쪽에서 섹션을 선택하세요</span>
-      </div>
-    </div>
+    <div class="adm-sec-tabs" id="admSecTabs"></div>
+    <div class="adm-editor" id="admEditor"></div>
   </div>
   <div class="adm-dialog-overlay" id="admDialog">
     <div class="adm-dialog">
@@ -922,19 +952,18 @@ function renderSections() {
 function renderTable(t, lang, enData) {
   if (!t || !t.headers.length) return '';
   const rows = t.rows.map((row, ri) => {
-    // For KR table: embed EN row values as data-en-{ci} on each td
-    // so CSS hover can swap text via JS without layout shift
+    // _hidden 플래그가 있는 행은 숨김 클래스 적용
+    const hidden = row._hidden === true;
+    const hiddenCls = hidden ? ' class="row-hidden"' : '';
     const enRow = (lang === 'kr' && enData && enData.rows[ri]) ? enData.rows[ri] : null;
     const cells = row.map((cell, ci) => {
       const isMono = isMonoCell(cell);
-      // data-en 속성값: 특수문자는 HTML 속성 이스케이프만 적용 (& " < > 처리)
-      // textContent로 읽으므로 &amp; 등 이중 이스케이프 방지
       const rawEn  = enRow ? String(enRow[ci] || '') : '';
       const enVal  = enRow ? rawEn.replace(/&/g,'&amp;').replace(/"/g,'&quot;') : '';
       const enAttr = enRow ? ` data-en="${enVal}"` : '';
       return `<td class="${isMono?'mono':''}"${enAttr}>${cell}</td>`;
     }).join('');
-    return `<tr>${cells}</tr>`;
+    return `<tr${hiddenCls}>${cells}</tr>`;
   }).join('');
   return `<table class="prof-table" data-lang="${lang}">
     <thead><tr>${t.headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead>
@@ -1022,68 +1051,136 @@ function admClearDraft() {
 }
 
 // ── PANEL ──
-function admOpenPanel() { renderSecList(); document.getElementById('admPanel').classList.add('on'); }
-function admClosePanel() { document.getElementById('admPanel').classList.remove('on'); admCloseDialog(); }
+function admOpenPanel() {
+  document.getElementById('admPanel').classList.add('on');
+  renderAllSections();
+}
+function admClosePanel() {
+  document.getElementById('admPanel').classList.remove('on');
+  admCloseDialog();
+  admCurSecIdx = -1;
+}
 
-function renderSecList() {
-  document.getElementById('admSecList').innerHTML = PROFILE.sections.map((s,i)=>
-    `<div class="adm-sec-item${admCurSecIdx===i?' active':''}" onclick="admSelectSec(${i})">
-       <span class="sec-stamp">${s.stamp}</span>
-       <span class="sec-name">${s.title_kr}</span>
-     </div>`
+// 섹션 탭 + 전체 펼침 렌더
+function renderAllSections() {
+  // 탭 렌더
+  document.getElementById('admSecTabs').innerHTML =
+    PROFILE.sections.map((s,i) => {
+      const hiddenCount = s.kr.rows.filter(r=>r._hidden).length;
+      const hasCls = hiddenCount > 0 ? ' has-hidden' : '';
+      const hiddenLabel = hiddenCount > 0 ? ` (숨김 ${hiddenCount})` : '';
+      return `<button class="adm-sec-tab${hasCls}" onclick="admScrollToSec(${i})">
+        <span style="opacity:.6;font-size:9px">${s.stamp}</span> ${s.title_kr}${hiddenLabel}
+      </button>`;
+    }).join('');
+
+  // 모든 섹션 에디터 렌더
+  const editor = document.getElementById('admEditor');
+  editor.innerHTML = PROFILE.sections.map((sec, si) =>
+    renderSecBlock(si)
   ).join('');
-}
-function admSelectSec(idx) {
-  admCurSecIdx=idx;
-  document.querySelectorAll('.adm-sec-item').forEach((el,i)=>el.classList.toggle('active',i===idx));
-  renderEditor();
+
+  // 드래그 바인딩
+  PROFILE.sections.forEach((sec, si) => {
+    initDragDropFor(si);
+  });
 }
 
-// ── EDITOR ──
-function renderEditor(skipSort) {
-  const sec = PROFILE.sections[admCurSecIdx];
-  if (!sec) return;
+function renderSecBlock(si) {
+  const sec = PROFILE.sections[si];
   const headers = sec.kr.headers;
   const dateCol = detectDateCol(headers, sec.kr.rows);
-  if (!skipSort && dateCol>=0 && sec.kr.rows.length>1) {
+  const sortOpts = headers.map((h,i)=>`<option value="${i}"${i===dateCol?' selected':''}>${h}</option>`).join('');
+  const hiddenCount = sec.kr.rows.filter(r=>r._hidden).length;
+  const hiddenLabel = hiddenCount > 0 ? `<span style="color:#b08020;margin-left:8px;font-size:10px">👁 숨김 ${hiddenCount}행</span>` : '';
+
+  return `<div class="adm-sec-block" id="admSecBlock_${si}" data-si="${si}">
+    <div class="adm-editor-title">
+      <span style="background:var(--ink);color:#fff;padding:2px 8px;font-size:9px;border-radius:1px;">${sec.stamp}</span>
+      ${sec.title_kr}${hiddenLabel}
+      <button class="adm-add-btn" onclick="admOpenAdd(${si})">+ 항목 추가</button>
+    </div>
+    <div class="adm-sort-bar">
+      <label>정렬 기준:</label>
+      <select class="adm-sort-sel" id="admSortCol_${si}">${sortOpts}</select>
+      <button class="adm-sort-btn" onclick="admApplySort(${si})">최신순 적용</button>
+      <span class="adm-sort-hint">⠿ 드래그 또는 ▲▼ 으로 순서 조정</span>
+    </div>
+    <table class="adm-table">
+      <thead><tr>
+        <th style="width:24px"></th>
+        ${headers.map(h=>`<th>${h}</th>`).join('')}
+        <th style="width:140px">관리</th>
+      </tr></thead>
+      <tbody id="admEditorTbody_${si}">
+        ${sec.kr.rows.map((row,ri)=>{
+          const hidden = row._hidden === true;
+          const hiddenCls = hidden ? ' row-hidden' : '';
+          const hideBtn = hidden
+            ? `<button class="adm-row-btn show" onclick="admToggleHide(this,${si})">보이기</button>`
+            : `<button class="adm-row-btn hide" onclick="admToggleHide(this,${si})">숨기기</button>`;
+          return `<tr data-ri="${ri}" data-si="${si}" draggable="true"${hiddenCls}>
+            <td class="adm-handle">⠿</td>
+            ${row.map(cell=>`<td>${cell}</td>`).join('')}
+            <td class="adm-actions">
+              <button class="adm-row-btn mv" onclick="admMoveRow(this,${si},-1)">▲</button>
+              <button class="adm-row-btn mv" onclick="admMoveRow(this,${si},1)">▼</button>
+              ${hideBtn}
+              <button class="adm-row-btn edit" onclick="admOpenEdit(this,${si})">수정</button>
+              <button class="adm-row-btn del" onclick="admDelRow(this,${si})">삭제</button>
+            </td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+    <div class="adm-order-bar" id="admOrderBar_${si}">
+      ⚠ 순서가 변경되었습니다.
+      <button class="adm-save-order-btn" onclick="admSaveOrder(${si})">이 순서로 저장</button>
+    </div>
+  </div>`;
+}
+
+function admScrollToSec(si) {
+  const el = document.getElementById('admSecBlock_' + si);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function admSelectSec(idx) { admScrollToSec(idx); }
+
+// ── EDITOR wrapper ──
+function renderEditor(skipSort) {
+  if (!document.getElementById('admPanel').classList.contains('on')) return;
+  if (admCurSecIdx >= 0) refreshSecBlock(admCurSecIdx, skipSort);
+  else renderAllSections();
+}
+
+function refreshSecBlock(si, skipSort) {
+  const sec = PROFILE.sections[si];
+  if (!sec) return;
+  const dateCol = detectDateCol(sec.kr.headers, sec.kr.rows);
+  if (!skipSort && dateCol >= 0 && sec.kr.rows.length > 1) {
     sec.kr.rows = sortDesc(sec.kr.rows, dateCol);
     sec.en.rows = sortDesc(sec.en.rows, dateCol);
     ST('draft', PROFILE);
   }
-  const sortOpts = headers.map((h,i)=>`<option value="${i}"${i===dateCol?' selected':''}>${h}</option>`).join('');
-  document.getElementById('admEditor').innerHTML = `
-    <div class="adm-editor-title">
-      <span style="background:var(--ink);color:#fff;padding:2px 8px;font-size:9px;border-radius:1px;">${sec.stamp}</span>
-      ${sec.title_kr}
-      <button class="adm-add-btn" onclick="admOpenAdd()">+ 항목 추가</button>
-    </div>
-    <div class="adm-sort-bar">
-      <label>정렬 기준:</label>
-      <select class="adm-sort-sel" id="admSortCol">${sortOpts}</select>
-      <button class="adm-sort-btn" onclick="admApplySort()">최신순 적용</button>
-      <span class="adm-sort-hint">⠿ 드래그 또는 ▲▼ 으로 순서 조정</span>
-    </div>
-    <table class="adm-table">
-      <thead><tr><th style="width:24px"></th>${headers.map(h=>`<th>${h}</th>`).join('')}<th style="width:120px">관리</th></tr></thead>
-      <tbody id="admEditorTbody">
-        ${sec.kr.rows.map((row,ri)=>`
-          <tr data-ri="${ri}" draggable="true">
-            <td class="adm-handle">⠿</td>
-            ${row.map(c=>`<td>${c}</td>`).join('')}
-            <td class="adm-actions">
-              <button class="adm-row-btn mv" onclick="admMoveRow(this,-1)">▲</button>
-              <button class="adm-row-btn mv" onclick="admMoveRow(this,1)">▼</button>
-              <button class="adm-row-btn edit" onclick="admOpenEdit(this)">수정</button>
-              <button class="adm-row-btn del" onclick="admDelRow(this)">삭제</button>
-            </td>
-          </tr>`).join('')}
-      </tbody>
-    </table>
-    <div class="adm-order-bar" id="admOrderBar">
-      ⚠ 순서가 변경되었습니다.
-      <button class="adm-save-order-btn" onclick="admSaveOrder()">이 순서로 저장</button>
-    </div>`;
-  initDragDrop();
+  const block = document.getElementById('admSecBlock_' + si);
+  if (block) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = renderSecBlock(si);
+    block.parentNode.replaceChild(tmp.firstElementChild, block);
+    initDragDropFor(si);
+  }
+  updateSecTabs();
+}
+
+function updateSecTabs() {
+  document.querySelectorAll('.adm-sec-tab').forEach((tab, i) => {
+    const s = PROFILE.sections[i];
+    if (!s) return;
+    const n = s.kr.rows.filter(r=>r._hidden).length;
+    tab.classList.toggle('has-hidden', n > 0);
+    tab.innerHTML = `<span style="opacity:.6;font-size:9px">${s.stamp}</span> ${s.title_kr}${n > 0 ? ` (숨김 ${n})` : ''}`;
+  });
 }
 
 function detectDateCol(headers, rows) {
@@ -1100,80 +1197,93 @@ function sortDesc(rows, col) {
     return yb-ya;
   });
 }
-function admApplySort() {
-  const col=+document.getElementById('admSortCol').value;
-  const sec=PROFILE.sections[admCurSecIdx];
-  sec.kr.rows=sortDesc(sec.kr.rows,col);
-  sec.en.rows=sortDesc(sec.en.rows,col);
-  ST('draft',PROFILE); renderEditor(true); markOrderDirty();
+function admApplySort(si) {
+  si = si !== undefined ? si : admCurSecIdx;
+  const col = +document.getElementById('admSortCol_' + si).value;
+  const sec = PROFILE.sections[si];
+  sec.kr.rows = sortDesc(sec.kr.rows, col);
+  sec.en.rows = sortDesc(sec.en.rows, col);
+  ST('draft', PROFILE);
+  admCurSecIdx = si;
+  refreshSecBlock(si, true);
+  markOrderDirty(si);
 }
 
 // ── ORDER ──
-function admMoveRow(btn,dir) {
-  const sec=PROFILE.sections[admCurSecIdx];
-  const trs=Array.from(document.getElementById('admEditorTbody').querySelectorAll('tr'));
-  const idx=trs.indexOf(btn.closest('tr')), tgt=idx+dir;
-  if(tgt<0||tgt>=trs.length) return;
-  [sec.kr.rows[idx],sec.kr.rows[tgt]]=[sec.kr.rows[tgt],sec.kr.rows[idx]];
-  [sec.en.rows[idx],sec.en.rows[tgt]]=[sec.en.rows[tgt],sec.en.rows[idx]];
-  ST('draft',PROFILE); renderEditor(true); markOrderDirty();
+function admMoveRow(btn, si, dir) {
+  const sec = PROFILE.sections[si];
+  const trs = Array.from(document.getElementById('admEditorTbody_' + si).querySelectorAll('tr'));
+  const idx = trs.indexOf(btn.closest('tr')), tgt = idx + dir;
+  if (tgt < 0 || tgt >= trs.length) return;
+  [sec.kr.rows[idx], sec.kr.rows[tgt]] = [sec.kr.rows[tgt], sec.kr.rows[idx]];
+  [sec.en.rows[idx], sec.en.rows[tgt]] = [sec.en.rows[tgt], sec.en.rows[idx]];
+  ST('draft', PROFILE); admCurSecIdx = si; refreshSecBlock(si, true); markOrderDirty(si);
 }
-function markOrderDirty() { document.getElementById('admOrderBar')?.classList.add('on'); }
-function admSaveOrder() {
+function markOrderDirty(si) {
+  si = si !== undefined ? si : admCurSecIdx;
+  document.getElementById('admOrderBar_' + si)?.classList.add('on');
+}
+function admSaveOrder(si) {
+  si = si !== undefined ? si : admCurSecIdx;
   renderSections(); initEnHover(); ST('draft',PROFILE); setTodayDate();
-  writeLog('order',PROFILE.sections[admCurSecIdx].title_kr,'행 순서 변경');
-  toast('순서가 저장되었습니다'); renderEditor(true);
+  writeLog('order', PROFILE.sections[si].title_kr, '행 순서 변경');
+  toast('순서가 저장되었습니다');
+  admCurSecIdx = si; refreshSecBlock(si, true);
 }
 
 // ── DRAG & DROP ──
-function initDragDrop() {
-  const tbody=document.getElementById('admEditorTbody');
-  if(!tbody) return;
-  tbody.addEventListener('dragstart',e=>{
-    const tr=e.target.closest('tr'); if(!tr) return;
-    _dragSrc=Array.from(tbody.querySelectorAll('tr')).indexOf(tr);
-    setTimeout(()=>tr.classList.add('dragging'),0);
-    e.dataTransfer.effectAllowed='move';
+function initDragDropFor(si) {
+  const tbody = document.getElementById('admEditorTbody_' + si);
+  if (!tbody) return;
+  tbody.addEventListener('dragstart', e => {
+    const tr = e.target.closest('tr'); if (!tr) return;
+    _dragSrc = Array.from(tbody.querySelectorAll('tr')).indexOf(tr);
+    setTimeout(() => tr.classList.add('dragging'), 0);
+    e.dataTransfer.effectAllowed = 'move';
   });
-  tbody.addEventListener('dragend',e=>{
+  tbody.addEventListener('dragend', e => {
     e.target.closest('tr')?.classList.remove('dragging');
-    tbody.querySelectorAll('tr').forEach(r=>r.classList.remove('drag-over'));
-    _dragSrc=null;
+    tbody.querySelectorAll('tr').forEach(r => r.classList.remove('drag-over'));
+    _dragSrc = null;
   });
-  tbody.addEventListener('dragover',e=>{
-    e.preventDefault(); e.dataTransfer.dropEffect='move';
-    const tr=e.target.closest('tr'); if(!tr) return;
-    tbody.querySelectorAll('tr').forEach(r=>r.classList.remove('drag-over'));
+  tbody.addEventListener('dragover', e => {
+    e.preventDefault(); e.dataTransfer.dropEffect = 'move';
+    const tr = e.target.closest('tr'); if (!tr) return;
+    tbody.querySelectorAll('tr').forEach(r => r.classList.remove('drag-over'));
     tr.classList.add('drag-over');
   });
-  tbody.addEventListener('dragleave',e=>e.target.closest('tr')?.classList.remove('drag-over'));
-  tbody.addEventListener('drop',e=>{
+  tbody.addEventListener('dragleave', e => e.target.closest('tr')?.classList.remove('drag-over'));
+  tbody.addEventListener('drop', e => {
     e.preventDefault();
-    tbody.querySelectorAll('tr').forEach(r=>r.classList.remove('drag-over'));
-    const tr=e.target.closest('tr'); if(!tr||_dragSrc===null) return;
-    const tgt=Array.from(tbody.querySelectorAll('tr')).indexOf(tr);
-    if(tgt===_dragSrc) return;
-    const sec=PROFILE.sections[admCurSecIdx];
-    const [kr]=sec.kr.rows.splice(_dragSrc,1);
-    const [en]=sec.en.rows.splice(_dragSrc,1);
-    sec.kr.rows.splice(tgt,0,kr);
-    sec.en.rows.splice(tgt,0,en);
-    ST('draft',PROFILE); renderEditor(true); markOrderDirty();
+    tbody.querySelectorAll('tr').forEach(r => r.classList.remove('drag-over'));
+    const tr = e.target.closest('tr'); if (!tr || _dragSrc === null) return;
+    const tgt = Array.from(tbody.querySelectorAll('tr')).indexOf(tr);
+    if (tgt === _dragSrc) return;
+    const sec = PROFILE.sections[si];
+    const [kr] = sec.kr.rows.splice(_dragSrc, 1);
+    const [en] = sec.en.rows.splice(_dragSrc, 1);
+    sec.kr.rows.splice(tgt, 0, kr);
+    sec.en.rows.splice(tgt, 0, en);
+    ST('draft', PROFILE); admCurSecIdx = si; refreshSecBlock(si, true); markOrderDirty(si);
   });
 }
 
 // ── DIALOG ──
-function admOpenAdd() {
-  admEditCtx={isNew:true,idx:-1};
-  const sec=PROFILE.sections[admCurSecIdx];
-  openDialog('항목 추가',sec.kr.headers,sec.en.headers,sec.kr.headers.map(()=>''),sec.en.headers.map(()=>''));
+function admOpenAdd(si) {
+  si = si !== undefined ? si : admCurSecIdx;
+  admCurSecIdx = si;
+  admEditCtx = { isNew:true, idx:-1, si };
+  const sec = PROFILE.sections[si];
+  openDialog('항목 추가', sec.kr.headers, sec.en.headers, sec.kr.headers.map(()=>''), sec.en.headers.map(()=>''));
 }
-function admOpenEdit(btn) {
-  const trs=Array.from(document.getElementById('admEditorTbody').querySelectorAll('tr'));
-  const idx=trs.indexOf(btn.closest('tr'));
-  admEditCtx={isNew:false,idx};
-  const sec=PROFILE.sections[admCurSecIdx];
-  openDialog('항목 수정',sec.kr.headers,sec.en.headers,[...(sec.kr.rows[idx]||[])],[...(sec.en.rows[idx]||[])]);
+function admOpenEdit(btn, si) {
+  si = si !== undefined ? si : admCurSecIdx;
+  admCurSecIdx = si;
+  const trs = Array.from(document.getElementById('admEditorTbody_' + si).querySelectorAll('tr'));
+  const idx = trs.indexOf(btn.closest('tr'));
+  admEditCtx = { isNew:false, idx, si };
+  const sec = PROFILE.sections[si];
+  openDialog('항목 수정', sec.kr.headers, sec.en.headers, [...(sec.kr.rows[idx]||[])], [...(sec.en.rows[idx]||[])]);
 }
 function openDialog(title,krH,enH,krV,enV) {
   document.getElementById('admDialogTitle').textContent=title;
@@ -1200,7 +1310,8 @@ function admCloseDialog() { document.getElementById('admDialog').classList.remov
 
 function admSaveRow() {
   if(!admEditCtx) return;
-  const {isNew,idx}=admEditCtx;
+  const {isNew,idx,si}=admEditCtx;
+  if(si !== undefined) admCurSecIdx = si;
   const sec=PROFILE.sections[admCurSecIdx];
   const krVals=Array.from(document.querySelectorAll('#admDialogForm [data-kr]'))
     .sort((a,b)=>+a.dataset.kr-+b.dataset.kr).map(i=>i.value.trim());
@@ -1210,24 +1321,55 @@ function admSaveRow() {
     sec.kr.rows.push(krVals); sec.en.rows.push(enVals);
     writeLog('add',sec.title_kr,krVals[0]||'새 항목');
     toast('항목이 추가되었습니다');
-    admCloseDialog(); ST('draft',PROFILE); setTodayDate(); renderSections(); initEnHover(); renderEditor(false);
+    admCloseDialog(); ST('draft',PROFILE); setTodayDate(); renderSections(); initEnHover(); refreshSecBlock(admCurSecIdx, false);
   } else {
+    // _hidden 플래그 보존
+    const wasHiddenKr = sec.kr.rows[idx]?._hidden;
+    const wasHiddenEn = sec.en.rows[idx]?._hidden;
     sec.kr.rows[idx]=krVals; sec.en.rows[idx]=enVals;
+    if (wasHiddenKr) sec.kr.rows[idx]._hidden = true;
+    if (wasHiddenEn) sec.en.rows[idx]._hidden = true;
     writeLog('edit',sec.title_kr,krVals[0]||'항목');
     toast('항목이 수정되었습니다');
-    admCloseDialog(); ST('draft',PROFILE); setTodayDate(); renderSections(); initEnHover(); renderEditor(true);
+    admCloseDialog(); ST('draft',PROFILE); setTodayDate(); renderSections(); initEnHover(); refreshSecBlock(admCurSecIdx, true);
   }
 }
 
-function admDelRow(btn) {
+function admToggleHide(btn, si) {
+  si = si !== undefined ? si : admCurSecIdx;
+  admCurSecIdx = si;
+  const trs     = Array.from(document.getElementById('admEditorTbody_' + si).querySelectorAll('tr'));
+  const tr      = btn.closest('tr');
+  const idx     = trs.indexOf(tr);
+  const sec     = PROFILE.sections[si];
+  const row     = sec.kr.rows[idx];
+  const enRow   = sec.en.rows[idx];
+
+  // _hidden 토글
+  const nowHidden = row._hidden === true;
+  row._hidden = !nowHidden;
+  if (enRow) enRow._hidden = !nowHidden;
+
+  ST('draft', PROFILE);
+  setTodayDate();
+  renderSections(); initEnHover();
+  refreshSecBlock(si, true);
+  const action = row._hidden ? '숨김' : '표시';
+  writeLog('edit', sec.title_kr, `[${action}] ${String(row[0]).substring(0,30)}`);
+  toast(row._hidden ? '행이 숨겨졌습니다' : '행이 표시됩니다');
+}
+
+function admDelRow(btn, si) {
   if(!confirm('이 항목을 삭제하시겠습니까?')) return;
-  const trs=Array.from(document.getElementById('admEditorTbody').querySelectorAll('tr'));
-  const idx=trs.indexOf(btn.closest('tr'));
-  const sec=PROFILE.sections[admCurSecIdx];
-  const label=sec.kr.rows[idx]?.[0]||'항목';
+  si = si !== undefined ? si : admCurSecIdx;
+  admCurSecIdx = si;
+  const trs = Array.from(document.getElementById('admEditorTbody_' + si).querySelectorAll('tr'));
+  const idx = trs.indexOf(btn.closest('tr'));
+  const sec = PROFILE.sections[si];
+  const label = sec.kr.rows[idx]?.[0] || '항목';
   sec.kr.rows.splice(idx,1); sec.en.rows.splice(idx,1);
-  writeLog('del',sec.title_kr,label);
-  ST('draft',PROFILE); setTodayDate(); renderSections(); initEnHover(); renderEditor(true);
+  writeLog('del', sec.title_kr, label);
+  ST('draft', PROFILE); setTodayDate(); renderSections(); initEnHover(); refreshSecBlock(si, true);
   toast('항목이 삭제되었습니다');
 }
 
