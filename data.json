@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated": "2026.06.22",
+    "updated": "2026.06.19",
     "name_kr": "김 주 영",
     "name_en": "Juyoung Kim",
     "title_kr": "(주)자리 연구소장",
@@ -9,7 +9,8 @@
     "subtitle_en": "Archivist, Knowledge Asset Management Specialist",
     "mobile": "010-6222-7814",
     "email": "juyoung.kim7@gmail.com",
-    "website": "juyoungkim-archives.github.io"
+    "website": "juyoungkim-archives.github.io",
+    "email2": "juyoung.kim@cnu.ac.kr"
   },
   "sections": [
     {
@@ -777,10 +778,10 @@
         ],
         "rows": [
           [
-            "Records Appraisal Review Committee",
-            "Jungnang-gu Facilities Management Corporation",
-            "Review Member",
-            "2020.09 – 2022.09"
+            "ISO/TC 46/SC 11(Archives/records management) Committee",
+            "Korean Agency for Technology and Standards(KATS)",
+            "Member",
+            "2020.07 – Present"
           ],
           [
             "ISO/IEC JTC 1/SC 23(Digitally recorded media for information interchange and storage) Committee",
@@ -963,24 +964,6 @@
             "2021.08 – 2023.08"
           ],
           [
-            "Cloud RMS Implementation Technical Advisory Committee",
-            "ROK Army Headquarters",
-            "Technical Advisor",
-            "2021.08 – 2023.08"
-          ],
-          [
-            "Proposal Technical Evaluation Committee",
-            "Gunpo City Hall",
-            "Evaluator",
-            "2021.03"
-          ],
-          [
-            "ISO/TC 46/SC 11(Archives/records management) Committee",
-            "Korean Agency for Technology and Standards(KATS)",
-            "Member",
-            "2020.07 – Present"
-          ],
-          [
             "Records Appraisal Review Committee",
             "Seoul Facilities Corporation",
             "Review Member",
@@ -991,6 +974,30 @@
             "Jungnang District Facility Management Corp.",
             "Review Member",
             "2020.09 – 2022.09"
+          ],
+          [
+            "Records Management Strategy Committee",
+            "Gyeonggi Tourism Organization",
+            "Advisory Member",
+            "2019.11 – 2022.09"
+          ],
+          [
+            "Records Appraisal Review Committee",
+            "Kunsan University",
+            "Review Member",
+            "2018.12 – 2024.03"
+          ],
+          [
+            "Cloud RMS Implementation Technical Advisory Committee",
+            "ROK Army Headquarters",
+            "Technical Advisor",
+            "2021.08 – 2023.08"
+          ],
+          [
+            "Proposal Technical Evaluation Committee",
+            "Gunpo City Hall",
+            "Evaluator",
+            "2021.03"
           ],
           [
             "Proposal Technical Evaluation Committee",
@@ -1005,22 +1012,16 @@
             "2020.11 – 2024.11"
           ],
           [
-            "Records Management Strategy Committee",
-            "Gyeonggi Tourism Organization",
-            "Advisory Member",
-            "2019.11 – 2022.09"
+            "Records Appraisal Review Committee",
+            "Jungnang-gu Facilities Management Corporation",
+            "Review Member",
+            "2020.09 – 2022.09"
           ],
           [
             "Records Management Strategy and System Establishment Committee",
             "Gyeonggi Tourism Organization",
             "Advisory Member",
             "2019.11 – 2022.09"
-          ],
-          [
-            "Records Appraisal Review Committee",
-            "Kunsan University",
-            "Review Member",
-            "2018.12 – 2024.03"
           ],
           [
             "Records Appraisal Review Committee",
@@ -2064,19 +2065,19 @@
             "An Extended Paradata Schema for Accountability in AI-Based Records Management: Focusing on ISO 23081-2 and Human-in-the-Loop",
             "Journal of Korean Society of Archives and Records Management",
             "2026",
-            "<a class=\"paper-link\" href=\"https://dx.doi.org/10.14404/JKSARM.2026.26.2.113\" target=\"_blank\">DOI</a>"
+            "DOI"
           ],
           [
             "An Analysis of Key Changes in ISO 14721:2025 and Their Implications for Application to Korean Records Management Systems",
             "Journal of Korean Society of Archives and Records Management",
             "2025",
-            "<a class=\"paper-link\" href=\"https://doi.org/10.14404/JKSARM.2025.25.3.175\" target=\"_blank\">DOI</a>"
+            "DOI"
           ],
           [
             "A Study on the Mid- to Long-Term Planning for the Preservation and Utilization of Vital National Records: Focusing on the Preservation and Restoration of Electronic Records and the Digital Field",
             "Journal of Korean Society of Archives and Records Management",
             "2025",
-            "<a class=\"paper-link\" href=\"https://doi.org/10.14404/JKSARM.2025.25.2.095\" target=\"_blank\">DOI</a>"
+            "DOI"
           ],
           [
             "The Role of Records Professionals in Response to Changes in Records Management Systems",
@@ -2088,23 +2089,23 @@
             "University Records Management Standard Model Using Big Data and AI Technologies",
             "13th National Archives Conference",
             "2021.11.27",
-            "<a class=\"paper-link\" href=\"https://www.archives.go.kr/next/newdata/researchReportDetail.do?seq=98402&amp;page=2&amp;reportType=&amp;year=&amp;searchType=&amp;keyword=\" target=\"_blank\">Link</a>"
+            "Link"
           ],
           [
             "A Study on Transferring Electronic Records from Record Production System to Record Management System Using Cloud Storage",
             "Journal of Korean Society of Archives and Records Management",
             "2019",
-            "<a class=\"paper-link\" href=\"https://doi.org/10.14404/JKSARM.2019.19.2.001\" target=\"_blank\">DOI</a>"
+            "DOI"
           ],
           [
             "A Study on the Transfer Method of Electronic Records Using Cloud Storage (Master's Thesis)",
             "Chungnam National University",
             "2017",
-            "<a class=\"paper-link\" href=\"https://www.riss.kr/link?id=T14532088\" target=\"_blank\">RISS</a>"
+            "RISS"
           ],
           [
             "Cloud Platform as an Open Archive",
-            "73rd Colloquium, Dept. of Information &amp; Records Management, Hankuk Univ. of Foreign Studies (Discussant)",
+            "73rd Colloquium, Dept. of Information & Records Management, Hankuk Univ. of Foreign Studies (Discussant)",
             "2017.06.09",
             "–"
           ],
