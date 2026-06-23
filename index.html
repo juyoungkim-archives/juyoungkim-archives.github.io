@@ -755,7 +755,7 @@
   </div>
   <div class="adm-bar-right">
     <button class="adm-bar-btn outline" onclick="admOpenPwChange()">🔑 비밀번호 변경</button>
-    <button class="adm-bar-btn danger" onclick="admClearDraft()" title="로컬 임시저장 데이터를 삭제하고 data.json으로 새로고침">🗑 캐시 초기화</button>
+    <button class="adm-bar-btn danger" onclick="admClearDraft()" title="로컬 임시저장 데이터를 삭제하고 INLINE_DATA로 새로고침">🗑 캐시 초기화</button>
     <button class="adm-bar-btn danger" onclick="admLogout()">로그아웃</button>
   </div>
 </div>
@@ -765,7 +765,7 @@
   <div class="adm-panel-head">
     <div class="adm-panel-head-left">
       <span class="adm-panel-head-title">✎ 콘텐츠 편집</span>
-      <button class="adm-save-json-btn" onclick="admSaveJson()">⬇ data.json 저장</button>
+      <button class="adm-save-json-btn" onclick="admSaveHtml()">⬇ index.html 저장</button>
       <button class="adm-save-json-btn" onclick="ghOpen()" style="background:#238636;margin-left:6px">GitHub에 저장</button>
     </div>
     <button class="adm-panel-close" onclick="admClosePanel()">✕ 닫기</button>
@@ -852,7 +852,7 @@ function ST(k, v) {
 function getPass() { return ST('pass') || ADM_PASS_DEFAULT; }
 
 // ── INIT ──
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
   // 1순위: localStorage 임시저장본 (관리자가 편집 중인 내용)
   // draft 유효성 검사: sections 데이터가 없으면 무효 draft로 판단
   const draft = ST('draft');
@@ -877,17 +877,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   } else if (draft && !draftValid) {
     ST('draft', null); // 비어있거나 손상된 draft 삭제
   }
-  // 2순위: fetch data.json (GitHub Pages / 웹서버 환경)
-  try {
-    const r = await fetch('data.json?v=' + Date.now());
-    if (!r.ok) throw new Error();
-    PROFILE = await r.json();
-  } catch(e) {
-    // 3순위: 번들 인라인 데이터 (로컬 file:// 환경)
-    PROFILE = JSON.parse(JSON.stringify(INLINE_DATA));
-  }
+  PROFILE = JSON.parse(JSON.stringify(INLINE_DATA));
   renderProfile();
-    bindKeys();
+  bindKeys();
 });
 
 // ── RENDER ──
@@ -1026,7 +1018,7 @@ function admLogout() {
 }
 
 function admClearDraft() {
-  if (!confirm('로컬 임시저장 데이터를 삭제하고 data.json 원본으로 새로고침할까요?\n(편집 중인 미저장 내용은 사라집니다)')) return;
+  if (!confirm('로컬 임시저장 데이터를 삭제하고 현재 HTML의 데이터로 새로고침할까요?\n(편집 중인 미저장 내용은 사라집니다)')) return;
   ST('draft', null);
   location.reload();
 }
@@ -1455,19 +1447,21 @@ function admDelRow(btn, si) {
 }
 
 // ── SAVE JSON ──
-function admSaveJson() {
-  if(!PROFILE) return;
-  const json = JSON.stringify(PROFILE, null, 2);
-  const blob = new Blob([json], {type:'application/json'});
+function admSaveHtml() {
+  if (!PROFILE) return;
+  // INLINE_DATA를 현재 PROFILE로 교체한 HTML 생성
+  const newData = 'const INLINE_DATA = ' + JSON.stringify(PROFILE) + ';\n';
+  const newHtml = document.documentElement.outerHTML
+    .replace(/const INLINE_DATA = \{[\s\S]*?\};\n/, newData);
+  const blob = new Blob([newHtml], {type:'text/html;charset=utf-8'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'data.json';
+  a.download = 'index.html';
   a.click();
   URL.revokeObjectURL(a.href);
-  // localStorage draft도 최신으로 유지
-  ST('draft', PROFILE);
-  writeLog('edit','SYSTEM','data.json 저장');
-  toast('data.json 다운로드 완료 → GitHub 저장소에 업로드하세요');
+  ST('draft', null); // draft 초기화 (HTML에 이미 반영됨)
+  writeLog('edit', 'SYSTEM', 'index.html 저장');
+  toast('index.html 다운로드 완료 → GitHub에 업로드하세요');
 }
 
 // ── TRANSLATION ──
@@ -1616,7 +1610,7 @@ async function ghSave() {
   statEl.className = 'gh-status loading';
 
   try {
-    const path = 'data.json';
+    const path = 'index.html';
     const apiBase = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
     const headers = {
       'Authorization': `Bearer ${token}`,
@@ -1636,15 +1630,17 @@ async function ghSave() {
       }
     } catch(e) { /* 새 파일이면 SHA 불필요 */ }
 
-    // 2. data.json 내용 Base64 인코딩
-    const jsonStr  = JSON.stringify(PROFILE, null, 2);
-    const encoded  = btoa(unescape(encodeURIComponent(jsonStr)));
+    // 2. index.html 내용 (INLINE_DATA 교체) Base64 인코딩
+    const newData  = 'const INLINE_DATA = ' + JSON.stringify(PROFILE) + ';\n';
+    const newHtml  = document.documentElement.outerHTML
+      .replace(/const INLINE_DATA = \{[\s\S]*?\};\n/, newData);
+    const encoded  = btoa(unescape(encodeURIComponent(newHtml)));
     const now      = new Date();
     const pad      = n => String(n).padStart(2,'0');
-    const commitMsg = `data: update profile ${now.getFullYear()}.${pad(now.getMonth()+1)}.${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+    const commitMsg = `profile: update ${now.getFullYear()}.${pad(now.getMonth()+1)}.${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
 
     // 3. PUT 요청으로 파일 저장
-    statEl.textContent = '⏳ data.json 저장 중...';
+    statEl.textContent = '⏳ index.html 저장 중...';
     const body = { message: commitMsg, content: encoded, branch };
     if (sha) body.sha = sha;
 
@@ -1663,7 +1659,7 @@ async function ghSave() {
     statEl.innerHTML = `✅ 저장 완료!<br>커밋: <a href="${commitUrl}" target="_blank" style="color:#1a7f37">${commitMsg}</a><br>GitHub Pages 반영까지 1~2분 소요됩니다.`;
     statEl.className = 'gh-status ok';
     writeLog('edit', 'SYSTEM', `GitHub 저장: ${user}/${repo}`);
-    toast('GitHub 저장 완료!');
+    toast('GitHub index.html 저장 완료!');
 
   } catch(e) {
     statEl.textContent = `❌ 저장 실패: ${e.message}`;
@@ -1680,7 +1676,7 @@ async function ghSave() {
   <div class="gh-modal-box">
     <div class="gh-box-title">GitHub 직접 저장</div>
     <div class="gh-box-sub">
-      Personal Access Token (PAT)을 입력하면 data.json을 GitHub에 직접 커밋합니다.<br>
+      Personal Access Token (PAT)을 입력하면 index.html을 GitHub에 직접 커밋합니다.<br>
       토큰은 이 기기에만 저장되며 서버로 전송되지 않습니다.<br><br>
       <b style="color:var(--ink)">토큰 발급 순서:</b><br>
       1. GitHub 로그인 후 우측 상단 프로필 사진 클릭<br>
