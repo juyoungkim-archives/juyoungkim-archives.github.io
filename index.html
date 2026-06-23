@@ -871,7 +871,7 @@ function renderHero() {
       </div>
       <div style="height:12px"></div>
       <div class="hero-meta">
-        <span class="meta-key"><span data-lang="kr">PHONE</span><span data-lang="en">Mobile</span></span>
+        <span class="meta-key"><span data-lang="kr">연락처</span><span data-lang="en">Mobile</span></span>
         <span class="meta-val">${m.mobile}</span>
         <span class="meta-key">E-mail</span>
         <span class="meta-val"><a href="mailto:${m.email}">${m.email}</a>${m.email2 ? ` &nbsp;·&nbsp; <a href="mailto:${m.email2}">${m.email2}</a>` : ''}</span>
@@ -901,10 +901,8 @@ function renderSections() {
 function renderTable(t, lang) {
   if (!t || !t.headers.length) return '';
   const rows = t.rows.map((row, ri) => {
-    // _hidden 플래그가 있는 행은 숨김 클래스 적용
-    const hidden = row._hidden === true;
+    const hidden = t.hiddenRows && t.hiddenRows.includes(ri);
     const hiddenCls = hidden ? ' class="row-hidden"' : '';
-
     const cells = row.map((cell, ci) => {
       const isMono = isMonoCell(cell);
       return `<td class="${isMono?'mono':''}">${cell}</td>`;
@@ -1007,7 +1005,7 @@ function renderAllSections() {
   // 탭 렌더
   document.getElementById('admSecTabs').innerHTML =
     PROFILE.sections.map((s,i) => {
-      const hiddenCount = s.kr.rows.filter(r=>r._hidden).length;
+      const hiddenCount = (s.kr.hiddenRows||[]).length;
       const hasCls = hiddenCount > 0 ? ' has-hidden' : '';
       const hiddenLabel = hiddenCount > 0 ? ` (숨김 ${hiddenCount})` : '';
       return `<button class="adm-sec-tab${hasCls}" onclick="admScrollToSec(${i})">
@@ -1032,7 +1030,7 @@ function renderSecBlock(si) {
   const headers = sec.kr.headers;
   const dateCol = detectDateCol(headers, sec.kr.rows);
   const sortOpts = headers.map((h,i)=>`<option value="${i}"${i===dateCol?' selected':''}>${h}</option>`).join('');
-  const hiddenCount = sec.kr.rows.filter(r=>r._hidden).length;
+  const hiddenCount = (sec.kr.hiddenRows||[]).length;
   const hiddenLabel = hiddenCount > 0 ? `<span style="color:#b08020;margin-left:8px;font-size:10px">👁 숨김 ${hiddenCount}행</span>` : '';
 
   return `<div class="adm-sec-block" id="admSecBlock_${si}" data-si="${si}">
@@ -1055,7 +1053,7 @@ function renderSecBlock(si) {
       </tr></thead>
       <tbody id="admEditorTbody_${si}">
         ${sec.kr.rows.map((row,ri)=>{
-          const hidden = row._hidden === true;
+          const hidden = sec.kr.hiddenRows && sec.kr.hiddenRows.includes(ri);
           const hiddenCls = hidden ? ' row-hidden' : '';
           const hideBtn = hidden
             ? `<button class="adm-row-btn show" onclick="admToggleHide(this,${si})">보이기</button>`
@@ -1118,7 +1116,7 @@ function updateSecTabs() {
   document.querySelectorAll('.adm-sec-tab').forEach((tab, i) => {
     const s = PROFILE.sections[i];
     if (!s) return;
-    const n = s.kr.rows.filter(r=>r._hidden).length;
+    const n = (s.kr.hiddenRows||[]).length;
     tab.classList.toggle('has-hidden', n > 0);
     tab.innerHTML = `<span style="opacity:.6;font-size:9px">${s.stamp}</span> ${s.title_kr}${n > 0 ? ` (숨김 ${n})` : ''}`;
   });
@@ -1158,6 +1156,13 @@ function admMoveRow(btn, si, dir) {
   if (tgt < 0 || tgt >= trs.length) return;
   [sec.kr.rows[idx], sec.kr.rows[tgt]] = [sec.kr.rows[tgt], sec.kr.rows[idx]];
   [sec.en.rows[idx], sec.en.rows[tgt]] = [sec.en.rows[tgt], sec.en.rows[idx]];
+  // hiddenRows 인덱스도 swap
+  if (sec.kr.hiddenRows) {
+    const hr = sec.kr.hiddenRows;
+    const hasIdx = hr.includes(idx), hasTgt = hr.includes(tgt);
+    if (hasIdx && !hasTgt) { hr.splice(hr.indexOf(idx),1); hr.push(tgt); }
+    else if (!hasIdx && hasTgt) { hr.splice(hr.indexOf(tgt),1); hr.push(idx); }
+  }
   ST('draft', PROFILE); admCurSecIdx = si; refreshSecBlock(si, true); markOrderDirty(si);
 }
 function markOrderDirty(si) {
@@ -1279,25 +1284,28 @@ function admSaveRow() {
 function admToggleHide(btn, si) {
   si = si !== undefined ? si : admCurSecIdx;
   admCurSecIdx = si;
-  const trs     = Array.from(document.getElementById('admEditorTbody_' + si).querySelectorAll('tr'));
-  const tr      = btn.closest('tr');
-  const idx     = trs.indexOf(tr);
-  const sec     = PROFILE.sections[si];
-  const row     = sec.kr.rows[idx];
-  const enRow   = sec.en.rows[idx];
+  const trs = Array.from(document.getElementById('admEditorTbody_' + si).querySelectorAll('tr'));
+  const tr  = btn.closest('tr');
+  const idx = trs.indexOf(tr);
+  const sec = PROFILE.sections[si];
 
-  // _hidden 토글
-  const nowHidden = row._hidden === true;
-  row._hidden = !nowHidden;
-  if (enRow) enRow._hidden = !nowHidden;
+  // hiddenRows: 숨긴 행 인덱스 배열 (JSON 직렬화 안전)
+  if (!sec.kr.hiddenRows) sec.kr.hiddenRows = [];
+  const isHidden = sec.kr.hiddenRows.includes(idx);
+
+  if (isHidden) {
+    sec.kr.hiddenRows = sec.kr.hiddenRows.filter(i => i !== idx);
+  } else {
+    sec.kr.hiddenRows.push(idx);
+  }
 
   ST('draft', PROFILE);
   setTodayDate();
   renderSections();
   refreshSecBlock(si, true);
-  const action = row._hidden ? '숨김' : '표시';
-  writeLog('edit', sec.title_kr, `[${action}] ${String(row[0]).substring(0,30)}`);
-  toast(row._hidden ? '행이 숨겨졌습니다' : '행이 표시됩니다');
+  const action = isHidden ? '표시' : '숨김';
+  writeLog('edit', sec.title_kr, `[${action}] ${String(sec.kr.rows[idx]?.[0]||'').substring(0,30)}`);
+  toast(isHidden ? '행이 표시됩니다' : '행이 숨겨졌습니다');
 }
 
 function admDelRow(btn, si) {
@@ -1308,7 +1316,14 @@ function admDelRow(btn, si) {
   const idx = trs.indexOf(btn.closest('tr'));
   const sec = PROFILE.sections[si];
   const label = sec.kr.rows[idx]?.[0] || '항목';
-  sec.kr.rows.splice(idx,1); sec.en.rows.splice(idx,1);
+  sec.kr.rows.splice(idx, 1);
+  sec.en.rows.splice(idx, 1);
+  // 삭제된 인덱스 이후 hiddenRows 인덱스 갱신
+  if (sec.kr.hiddenRows) {
+    sec.kr.hiddenRows = sec.kr.hiddenRows
+      .filter(i => i !== idx)
+      .map(i => i > idx ? i - 1 : i);
+  }
   writeLog('del', sec.title_kr, label);
   ST('draft', PROFILE); setTodayDate(); renderSections(); refreshSecBlock(si, true);
   toast('항목이 삭제되었습니다');
