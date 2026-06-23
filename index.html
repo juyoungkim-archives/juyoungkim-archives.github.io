@@ -364,20 +364,20 @@
     color: var(--stamp);
     text-decoration: none;
     border-bottom: 1px dotted var(--stamp);
-    font-family: var(--mono);
-    font-size: 11px;
+    font-family: var(--sans-kr);
+    font-size: 13px;
   }
   .prof-table tbody td a:hover { color: var(--stamp-light); }
 
   .prof-table tbody td.mono {
-    font-family: var(--mono);
+    font-family: var(--sans-kr);
     font-size: 13px;
     color: var(--muted);
     white-space: nowrap;
   }
 
   .prof-table tbody td.stamp-cell {
-    font-family: var(--mono);
+    font-family: var(--sans-kr);
     font-size: 13px;
     color: var(--ink);
     white-space: nowrap;
@@ -917,13 +917,8 @@ function renderTable(t, lang) {
 }
 
 function isMonoCell(cell) {
-  const s = String(cell).trim();
-  // 20자 초과 텍스트는 절대 mono 아님 (표준명, 논문명 등 긴 텍스트 제외)
-  if (s.length > 20) return false;
-  // 연도/날짜 패턴: 2026, 2026.05, 2026.05-2026.12, Present 포함 등
-  return /^\d{4}[.\-\/]/.test(s) || /^\d{4}$/.test(s) ||
-         /^\d{4}[.\-]\d{2}/.test(s) ||
-         (s.includes('–') && /\d{4}/.test(s));
+  // 모든 셀에 동일한 폰트 적용 — mono 클래스 사용 안 함
+  return false;
 }
 
 function renderFooter() {
