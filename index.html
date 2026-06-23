@@ -346,61 +346,11 @@
   }
 
   .prof-table tbody tr:hover { background: var(--parchment); }
-
-  /* ── KR 행 hover → EN 툴팁 ── */
+  /* EN table hidden in KR mode */
   body:not(.en) .prof-table[data-lang="en"] { display: none; }
 
-  body:not(.en) .prof-table[data-lang="kr"] tbody tr {
-    position: relative;
-  }
-  /* 툴팁 컨테이너 */
-  .en-tooltip {
-    display: none;
-    position: fixed;
-    z-index: 999;
-    background: var(--navy);
-    border: 1px solid var(--gold);
-    border-radius: 3px;
-    padding: 10px 14px;
-    box-shadow: 0 6px 24px rgba(0,0,0,.28);
-    pointer-events: none;
-    max-width: 680px;
-    min-width: 200px;
-  }
-  .en-tooltip.visible { display: block; }
-  .en-tooltip-inner {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 16px;
-  }
-  .en-tooltip-cell {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    min-width: 0;
-  }
-  .en-tooltip-label {
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: .1em;
-    color: var(--gold);
-    text-transform: uppercase;
-    opacity: .8;
-    white-space: nowrap;
-  }
-  .en-tooltip-value {
-    font-family: var(--sans-kr);
-    font-size: 12px;
-    color: #fff;
-    line-height: 1.4;
-    word-break: break-word;
-  }
-  .en-tooltip-value.mono-val {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: #c8d8f8;
-    white-space: nowrap;
-  }
+
+
 
   .prof-table tbody td {
     padding: 10px 12px;
@@ -421,14 +371,14 @@
 
   .prof-table tbody td.mono {
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 13px;
     color: var(--muted);
     white-space: nowrap;
   }
 
   .prof-table tbody td.stamp-cell {
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 13px;
     color: var(--ink);
     white-space: nowrap;
   }
@@ -879,8 +829,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
       PROFILE = draft;
       renderProfile();
-      initEnHover();
-      bindKeys();
+            bindKeys();
       return;
     }
   } else if (draft && !draftValid) {
@@ -896,8 +845,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     PROFILE = JSON.parse(JSON.stringify(INLINE_DATA));
   }
   renderProfile();
-  initEnHover();
-  bindKeys();
+    bindKeys();
 });
 
 // ── RENDER ──
@@ -942,26 +890,23 @@ function renderSections() {
         <span class="section-title" data-lang="en">${sec.title_en}</span>
       </div>
       <div class="bilingual-wrap">
-        ${renderTable(sec.kr,'kr',sec.en)}
+        ${renderTable(sec.kr,'kr')}
         ${renderTable(sec.en,'en')}
       </div>
     </div>`
   ).join('');
 }
 
-function renderTable(t, lang, enData) {
+function renderTable(t, lang) {
   if (!t || !t.headers.length) return '';
   const rows = t.rows.map((row, ri) => {
     // _hidden 플래그가 있는 행은 숨김 클래스 적용
     const hidden = row._hidden === true;
     const hiddenCls = hidden ? ' class="row-hidden"' : '';
-    const enRow = (lang === 'kr' && enData && enData.rows[ri]) ? enData.rows[ri] : null;
+
     const cells = row.map((cell, ci) => {
       const isMono = isMonoCell(cell);
-      const rawEn  = enRow ? String(enRow[ci] || '') : '';
-      const enVal  = enRow ? rawEn.replace(/&/g,'&amp;').replace(/"/g,'&quot;') : '';
-      const enAttr = enRow ? ` data-en="${enVal}"` : '';
-      return `<td class="${isMono?'mono':''}"${enAttr}>${cell}</td>`;
+      return `<td class="${isMono?'mono':''}">${cell}</td>`;
     }).join('');
     return `<tr${hiddenCls}>${cells}</tr>`;
   }).join('');
@@ -1225,7 +1170,7 @@ function markOrderDirty(si) {
 }
 function admSaveOrder(si) {
   si = si !== undefined ? si : admCurSecIdx;
-  renderSections(); initEnHover(); ST('draft',PROFILE); setTodayDate();
+  renderSections(); ST('draft',PROFILE); setTodayDate();
   writeLog('order', PROFILE.sections[si].title_kr, '행 순서 변경');
   toast('순서가 저장되었습니다');
   admCurSecIdx = si; refreshSecBlock(si, true);
@@ -1321,7 +1266,7 @@ function admSaveRow() {
     sec.kr.rows.push(krVals); sec.en.rows.push(enVals);
     writeLog('add',sec.title_kr,krVals[0]||'새 항목');
     toast('항목이 추가되었습니다');
-    admCloseDialog(); ST('draft',PROFILE); setTodayDate(); renderSections(); initEnHover(); refreshSecBlock(admCurSecIdx, false);
+    admCloseDialog(); ST('draft',PROFILE); setTodayDate(); renderSections(); refreshSecBlock(admCurSecIdx, false);
   } else {
     // _hidden 플래그 보존
     const wasHiddenKr = sec.kr.rows[idx]?._hidden;
@@ -1331,7 +1276,7 @@ function admSaveRow() {
     if (wasHiddenEn) sec.en.rows[idx]._hidden = true;
     writeLog('edit',sec.title_kr,krVals[0]||'항목');
     toast('항목이 수정되었습니다');
-    admCloseDialog(); ST('draft',PROFILE); setTodayDate(); renderSections(); initEnHover(); refreshSecBlock(admCurSecIdx, true);
+    admCloseDialog(); ST('draft',PROFILE); setTodayDate(); renderSections(); refreshSecBlock(admCurSecIdx, true);
   }
 }
 
@@ -1352,7 +1297,7 @@ function admToggleHide(btn, si) {
 
   ST('draft', PROFILE);
   setTodayDate();
-  renderSections(); initEnHover();
+  renderSections();
   refreshSecBlock(si, true);
   const action = row._hidden ? '숨김' : '표시';
   writeLog('edit', sec.title_kr, `[${action}] ${String(row[0]).substring(0,30)}`);
@@ -1369,7 +1314,7 @@ function admDelRow(btn, si) {
   const label = sec.kr.rows[idx]?.[0] || '항목';
   sec.kr.rows.splice(idx,1); sec.en.rows.splice(idx,1);
   writeLog('del', sec.title_kr, label);
-  ST('draft', PROFILE); setTodayDate(); renderSections(); initEnHover(); refreshSecBlock(si, true);
+  ST('draft', PROFILE); setTodayDate(); renderSections(); refreshSecBlock(si, true);
   toast('항목이 삭제되었습니다');
 }
 
@@ -1478,83 +1423,6 @@ let _toastT;
 function toast(msg){
   const el=document.getElementById('admToast');el.textContent=msg;el.classList.add('on');
   clearTimeout(_toastT);_toastT=setTimeout(()=>el.classList.remove('on'),2600);
-}
-// ── KR 행 hover → EN 툴팁 ──
-const _tooltip    = () => document.getElementById('enTooltip');
-const _tooltipIn  = () => document.getElementById('enTooltipInner');
-
-function initEnHover() {
-  document.querySelectorAll('.prof-table[data-lang="kr"] tbody tr').forEach(tr => {
-    if (tr.dataset.hoverBound) return;
-    tr.dataset.hoverBound = '1';
-
-    tr.addEventListener('mouseenter', e => showEnTooltip(e, tr));
-    tr.addEventListener('mousemove',  e => moveEnTooltip(e));
-    tr.addEventListener('mouseleave', ()  => hideEnTooltip());
-  });
-}
-
-function showEnTooltip(e, tr) {
-  if (document.body.classList.contains('en')) return;
-
-  const tbl     = tr.closest('table');
-  const headers = Array.from(tbl.querySelectorAll('thead th')).map(th => th.textContent.trim());
-  const tds     = Array.from(tr.querySelectorAll('td'));
-
-  // EN 값 수집 — '–' 단독값만 제외
-  const cells = tds.map((td, i) => {
-    const enVal  = td.getAttribute('data-en') || '';
-    const krVal  = td.textContent.trim();
-    const same   = enVal === krVal; // KR과 동일 여부
-    return { label: headers[i] || '', enVal, krVal, same, isMono: td.classList.contains('mono') };
-  }).filter(cell => cell.enVal && cell.enVal.trim() !== '–' && cell.enVal.trim() !== '');
-
-  if (!cells.length) return;
-
-  _tooltipIn().innerHTML = cells.map(cell => {
-    const cls = cell.isMono ? ' mono-val' : '';
-    const sameMark = cell.same ? ' <span style="opacity:.5;font-size:9px">(동일)</span>' : '';
-    return `<div class="en-tooltip-cell">
-       <span class="en-tooltip-label">${cell.label}</span>
-       <span class="en-tooltip-value${cls}">${cell.enVal}${sameMark}</span>
-     </div>`;
-  }).join('');
-
-  moveEnTooltip(e);
-  _tooltip().classList.add('visible');
-}
-
-function moveEnTooltip(e) {
-  const tip = _tooltip();
-  if (!tip.classList.contains('visible')) return;
-  const gap = 14;
-  const tw  = tip.offsetWidth  || 300;
-  const th  = tip.offsetHeight || 80;
-  let   x   = e.clientX + gap;
-  let   y   = e.clientY + gap;
-  if (x + tw > window.innerWidth  - 8) x = e.clientX - tw - gap;
-  if (y + th > window.innerHeight - 8) y = e.clientY - th - gap;
-  tip.style.left = x + 'px';
-  tip.style.top  = y + 'px';
-}
-
-function hideEnTooltip() {
-  _tooltip().classList.remove('visible');
-}
-
-function bindKeys(){
-  document.addEventListener('keydown',e=>{
-    if(e.key!=='Escape') return;
-    if(document.getElementById('admDialog').classList.contains('on')) admCloseDialog();
-    else if(document.getElementById('admPanel').classList.contains('on')) admClosePanel();
-    else if(document.getElementById('admLogPanel').classList.contains('on')) admCloseLog();
-    else if(document.getElementById('admLogin').classList.contains('on')) admHideLogin();
-    else if(document.getElementById('admPwModal').classList.contains('on')) admClosePwChange();
-  });
-  document.getElementById('admPw').addEventListener('keydown',e=>{if(e.key==='Enter') admDoLogin();});
-  document.getElementById('admLogin').addEventListener('click',e=>{if(e.target===document.getElementById('admLogin')) admHideLogin();});
-  document.getElementById('admPwModal').addEventListener('click',e=>{if(e.target===document.getElementById('admPwModal')) admClosePwChange();});
-  document.getElementById('ghModal').addEventListener('click',e=>{if(e.target===document.getElementById('ghModal')) ghClose();});
 }
 
 // ═══ GITHUB DIRECT SAVE ═══
@@ -1670,7 +1538,6 @@ async function ghSave() {
 }
 
 </script>
-<div class="en-tooltip" id="enTooltip"><div class="en-tooltip-inner" id="enTooltipInner"></div></div>
 
 <!-- GITHUB SAVE MODAL -->
 <div class="adm-overlay" id="ghModal" style="z-index:800">
