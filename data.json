@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated": "2026.06.19",
+    "updated": "2026.06.23",
     "name_kr": "김 주 영",
     "name_en": "Juyoung Kim",
     "title_kr": "(주)자리 연구소장",
@@ -142,7 +142,7 @@
             "2017.03"
           ],
           [
-            "ISO 30301 기록경영시스템 선임심사원",
+            "ISO 30301(기록경영시스템) 선임심사원",
             "Bureau Veritas",
             "2015.09"
           ],
@@ -196,7 +196,7 @@
             "2017.03"
           ],
           [
-            "ISO 30301 Records Management System Lead Auditor",
+            "ISO 30301 (Records Management System) Senior Auditor",
             "Bureau Veritas",
             "2015.09"
           ],
@@ -1057,6 +1057,12 @@
         ],
         "rows": [
           [
+            "광주비엔날레재단",
+            "광주비엔날레 AI라키비움 시스템 구축",
+            "PMO",
+            "2026.07-2026.12"
+          ],
+          [
             "국방과학연구소",
             "기록관리시스템 통합 파일 운영체계 개편",
             "컨설팅",
@@ -1069,7 +1075,7 @@
             "2025.12–2025.12"
           ],
           [
-            "광주비엔날레",
+            "광주비엔날레재단",
             "AI 라키비움 구축 정보화전략계획(ISP) 수립",
             "PL",
             "2025.06–2025.10"
@@ -1342,6 +1348,12 @@
           "Period"
         ],
         "rows": [
+          [
+            "Gwangju Biennale Foundation",
+            "Gwangju Biennale AI Rachivium system construction",
+            "PMO",
+            "2026.07-2026.12"
+          ],
           [
             "Agency for Defense Development",
             "기록관리시스템 통합 파일 운영체계 개편",
@@ -1633,6 +1645,16 @@
         ],
         "rows": [
           [
+            "ISO/AWI TS 25280-1 — Information and documentation — Records management and Artificial Intelligence — Principles and Considerations — Part 1: Records management in artificial intelligence enabled environment",
+            "WG(국제표준개발)",
+            "2026"
+          ],
+          [
+            "ISO/AWI TS 25280-2 — Information and documentation — Records management and Artificial Intelligence — Principles and considerations — Part 2: Application of artificial intelligence capabilities for records management",
+            "WG(국제표준개발)",
+            "2026"
+          ],
+          [
             "ISO/TC 46/SC 11 AHG7 N2386 (Findings Report of the ISO 15489 Review Research)",
             "검토 (국제표준개정)",
             "2026"
@@ -1791,6 +1813,16 @@
           "Year"
         ],
         "rows": [
+          [
+            "ISO/AWI TS 25280-1 — Information and documentation — Records management and Artificial Intelligence — Principles and Considerations — Part 1: Records management in artificial intelligence enabled environment",
+            "WG (International Standard Development)",
+            "2026"
+          ],
+          [
+            "ISO/AWI TS 25280-2 — Information and documentation — Records management and Artificial Intelligence — Principles and considerations — Part 2: Application of artificial intelligence capabilities for records management",
+            "WG (International Standard Development)",
+            "2026"
+          ],
           [
             "ISO/TC 46/SC 11 AHG7 N2386 — Findings Report of the ISO 15489 Review Research",
             "Review (International Standard Revision)",
@@ -2034,16 +2066,16 @@
             "<a class=\"paper-link\" href=\"https://doi.org/10.14404/JKSARM.2019.19.2.001\" target=\"_blank\">DOI</a>"
           ],
           [
-            "클라우드 저장소를 활용한 전자기록물의 이관 방안 (석사학위논문)",
-            "충남대학교 대학원",
-            "2017",
-            "<a class=\"paper-link\" href=\"https://www.riss.kr/link?id=T14532088\" target=\"_blank\">RISS</a>"
-          ],
-          [
             "오픈 아카이브로서 클라우드 플랫폼",
             "한국외국어대학교 일반대학원 정보·기록학과 제73회 콜로키움 (토론)",
             "2017.06.09",
             "–"
+          ],
+          [
+            "클라우드 저장소를 활용한 전자기록물의 이관 방안 (석사학위논문)",
+            "충남대학교 대학원",
+            "2017",
+            "<a class=\"paper-link\" href=\"https://www.riss.kr/link?id=T14532088\" target=\"_blank\">RISS</a>"
           ],
           [
             "업무관리와 기록관리, 클라우드 컴퓨팅을 어떻게 적용할까?",
@@ -2098,16 +2130,16 @@
             "DOI"
           ],
           [
-            "A Study on the Transfer Method of Electronic Records Using Cloud Storage (Master's Thesis)",
-            "Chungnam National University",
-            "2017",
-            "RISS"
-          ],
-          [
             "Cloud Platform as an Open Archive",
             "73rd Colloquium, Dept. of Information & Records Management, Hankuk Univ. of Foreign Studies (Discussant)",
             "2017.06.09",
             "–"
+          ],
+          [
+            "A Study on the Transfer Method of Electronic Records Using Cloud Storage (Master's Thesis)",
+            "Chungnam National University",
+            "2017",
+            "RISS"
           ],
           [
             "How Can We Apply Cloud Computing to Work Management and Records Management?",
