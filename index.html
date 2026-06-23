@@ -280,6 +280,7 @@
   }
 
   .meta-val {
+    font-family: var(--sans-kr);
     font-size: 13px;
     color: var(--ink);
   }
@@ -873,7 +874,7 @@ function renderHero() {
         <span class="meta-key" data-lang="kr">연락처</span><span class="meta-key" data-lang="en">Mobile</span>
         <span class="meta-val">${m.mobile}</span>
         <span class="meta-key">E-mail</span>
-        <span class="meta-val"><a href="mailto:${m.email}">${m.email}</a> <a href="mailto:${m.email2||''}">${m.email2||''}</a></span>
+        <span class="meta-val"><a href="mailto:${m.email}">${m.email}</a>${m.email2 ? ` &nbsp;·&nbsp; <a href="mailto:${m.email2}">${m.email2}</a>` : ''}</span>
         <span class="meta-key">Website</span>
         <span class="meta-val"><a href="https://${m.website}" target="_blank">${m.website}</a></span>
       </div>
