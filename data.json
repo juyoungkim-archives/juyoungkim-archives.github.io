@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated": "2026.06.23",
+    "updated": "2026.06.24",
     "name_kr": "김 주 영",
     "name_en": "Juyoung Kim",
     "title_kr": "(주)자리 대표",
@@ -527,6 +527,12 @@
             "2026.01 – 현재"
           ],
           [
+            "국립대학교 통합 기록관리시스템 명칭 공모 심사",
+            "교육부",
+            "심사위원",
+            "2026.06.23"
+          ],
+          [
             "대통령기록물 콘텐츠 서비스 및 개선 자문위원회",
             "대통령기록관",
             "자문위원",
@@ -783,10 +789,10 @@
         ],
         "rows": [
           [
-            "ISO/TC 46/SC 11(Archives/records management) Committee",
-            "Korean Agency for Technology and Standards(KATS)",
-            "Member",
-            "2020.07 – Present"
+            "Records Appraisal Review Committee",
+            "Jungnang-gu Facilities Management Corporation",
+            "Review Member",
+            "2020.09 – 2022.09"
           ],
           [
             "ISO/IEC JTC 1/SC 23(Digitally recorded media for information interchange and storage) Committee",
@@ -799,6 +805,12 @@
             "Ministry of Education",
             "Review Member",
             "2026.01 – Present"
+          ],
+          [
+            "National University Integrated Records Management System Name Contest Review",
+            "Ministry of Education",
+            "judge",
+            "2026.06.23"
           ],
           [
             "Presidential Records Content Services Advisory Committee",
@@ -969,30 +981,6 @@
             "2021.08 – 2023.08"
           ],
           [
-            "Records Appraisal Review Committee",
-            "Seoul Facilities Corporation",
-            "Review Member",
-            "2020.11 – 2024.11"
-          ],
-          [
-            "Records Appraisal Review Committee",
-            "Jungnang District Facility Management Corp.",
-            "Review Member",
-            "2020.09 – 2022.09"
-          ],
-          [
-            "Records Management Strategy Committee",
-            "Gyeonggi Tourism Organization",
-            "Advisory Member",
-            "2019.11 – 2022.09"
-          ],
-          [
-            "Records Appraisal Review Committee",
-            "Kunsan University",
-            "Review Member",
-            "2018.12 – 2024.03"
-          ],
-          [
             "Cloud RMS Implementation Technical Advisory Committee",
             "ROK Army Headquarters",
             "Technical Advisor",
@@ -1003,6 +991,24 @@
             "Gunpo City Hall",
             "Evaluator",
             "2021.03"
+          ],
+          [
+            "ISO/TC 46/SC 11(Archives/records management) Committee",
+            "Korean Agency for Technology and Standards(KATS)",
+            "Member",
+            "2020.07 – Present"
+          ],
+          [
+            "Records Appraisal Review Committee",
+            "Seoul Facilities Corporation",
+            "Review Member",
+            "2020.11 – 2024.11"
+          ],
+          [
+            "Records Appraisal Review Committee",
+            "Jungnang District Facility Management Corp.",
+            "Review Member",
+            "2020.09 – 2022.09"
           ],
           [
             "Proposal Technical Evaluation Committee",
@@ -1017,16 +1023,22 @@
             "2020.11 – 2024.11"
           ],
           [
-            "Records Appraisal Review Committee",
-            "Jungnang-gu Facilities Management Corporation",
-            "Review Member",
-            "2020.09 – 2022.09"
+            "Records Management Strategy Committee",
+            "Gyeonggi Tourism Organization",
+            "Advisory Member",
+            "2019.11 – 2022.09"
           ],
           [
             "Records Management Strategy and System Establishment Committee",
             "Gyeonggi Tourism Organization",
             "Advisory Member",
             "2019.11 – 2022.09"
+          ],
+          [
+            "Records Appraisal Review Committee",
+            "Kunsan University",
+            "Review Member",
+            "2018.12 – 2024.03"
           ],
           [
             "Records Appraisal Review Committee",
