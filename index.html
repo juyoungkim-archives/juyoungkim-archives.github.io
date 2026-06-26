@@ -832,6 +832,14 @@ const INLINE_DATA = {"meta": {"updated": "2026.06.19", "name_kr": "김 주 영",
 const ADM_PASS_DEFAULT = 'jari2024!';
 const STORE_PFX = 'jari3_';
 
+// 원본 HTML 소스 보존 (DOM 상태가 아닌 순수 소스 기반으로 저장)
+const _ORIGINAL_HTML = (function() {
+  // script 태그 안에서 실행되는 시점의 HTML — DOMContentLoaded 전이므로 클린 상태
+  // document.documentElement.outerHTML 대신 여기서 캡처
+  return ''; // 아래 DOMContentLoaded에서 설정
+})();
+let _sourceHtml = '';
+
 let PROFILE = null;
 let admMode = false;
 let admCurSecIdx = -1;
@@ -853,34 +861,20 @@ function getPass() { return ST('pass') || ADM_PASS_DEFAULT; }
 
 // ── INIT ──
 document.addEventListener('DOMContentLoaded', () => {
-  // 1순위: localStorage 임시저장본 (관리자가 편집 중인 내용)
-  // draft 유효성 검사: sections 데이터가 없으면 무효 draft로 판단
+  // 페이지 로드 직후 클린 DOM 상태의 HTML 소스 보존 (모달/클래스 없는 상태)
+  _sourceHtml = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+
   const draft = ST('draft');
   const draftValid = draft &&
     draft.sections &&
-    draft.sections.length > 0 &&
-    draft.sections[0].kr &&
-    draft.sections[0].kr.rows &&
-    draft.sections[0].kr.rows.length > 0;
+    draft.sections.length === INLINE_DATA.sections.length &&
+    draft.sections[0].kr?.rows?.length > 0;
 
-  if (draftValid) {
-    // draft 버전이 INLINE_DATA보다 오래된 경우 병합
-    // sections 수가 다르면 INLINE_DATA 기준으로 초기화
-    if (draft.sections.length !== INLINE_DATA.sections.length) {
-      ST('draft', null); // 무효 draft 삭제
-    } else {
-      PROFILE = draft;
-      renderProfile();
-            bindKeys();
-      return;
-    }
-  } else if (draft && !draftValid) {
-    ST('draft', null); // 비어있거나 손상된 draft 삭제
-  }
-  PROFILE = JSON.parse(JSON.stringify(INLINE_DATA));
+  PROFILE = draftValid ? draft : JSON.parse(JSON.stringify(INLINE_DATA));
+  if (!draftValid && draft) ST('draft', null);
   renderProfile();
   bindKeys();
-});
+});;
 
 // ── RENDER ──
 function renderProfile() {
@@ -1447,19 +1441,22 @@ function admDelRow(btn, si) {
 }
 
 // ── SAVE JSON ──
-function admSaveHtml() {
-  if (!PROFILE) return;
-  // INLINE_DATA를 현재 PROFILE로 교체한 HTML 생성
+function buildSavedHtml() {
+  // 원본 클린 HTML 소스에서 INLINE_DATA만 교체 — DOM 상태(모달/클래스 등) 포함 안 됨
   const newData = 'const INLINE_DATA = ' + JSON.stringify(PROFILE) + ';\n';
-  const newHtml = document.documentElement.outerHTML
-    .replace(/const INLINE_DATA = \{[\s\S]*?\};\n/, newData);
-  const blob = new Blob([newHtml], {type:'text/html;charset=utf-8'});
+  return _sourceHtml.replace(/const INLINE_DATA = \{[\s\S]*?\};\n/, newData);
+}
+
+function admSaveHtml() {
+  if (!PROFILE || !_sourceHtml) { toast('⚠ 페이지를 새로고침 후 다시 시도해주세요.'); return; }
+  const html = buildSavedHtml();
+  const blob = new Blob([html], {type:'text/html;charset=utf-8'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'index.html';
   a.click();
   URL.revokeObjectURL(a.href);
-  ST('draft', null); // draft 초기화 (HTML에 이미 반영됨)
+  ST('draft', null);
   writeLog('edit', 'SYSTEM', 'index.html 저장');
   toast('index.html 다운로드 완료 → GitHub에 업로드하세요');
 }
@@ -1630,10 +1627,8 @@ async function ghSave() {
       }
     } catch(e) { /* 새 파일이면 SHA 불필요 */ }
 
-    // 2. index.html 내용 (INLINE_DATA 교체) Base64 인코딩
-    const newData  = 'const INLINE_DATA = ' + JSON.stringify(PROFILE) + ';\n';
-    const newHtml  = document.documentElement.outerHTML
-      .replace(/const INLINE_DATA = \{[\s\S]*?\};\n/, newData);
+    // 2. index.html 내용 (INLINE_DATA 교체, DOM 상태 제외) Base64 인코딩
+    const newHtml  = buildSavedHtml();
     const encoded  = btoa(unescape(encodeURIComponent(newHtml)));
     const now      = new Date();
     const pad      = n => String(n).padStart(2,'0');
